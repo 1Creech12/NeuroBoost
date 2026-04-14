@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QTimer>
+#include <QMessageBox>
+#include "colormemory.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -18,7 +20,20 @@ public:
 
 private:
     Ui::MainWindow *ui;
-signals:
+    ColorMemory *game;
+    void disableColorButtons(bool disable);
+    void nextRound();
+private slots:
+    void on_redButton_clicked();
+    void on_blueButton_clicked();
+    void on_yellowButton_clicked();
+    void on_greenButton_clicked();
+    void on_startButton_clicked();
+    void onUpdateSequence(const QString& text);
+    void onCorrectGuess();
+    void onUnCorrectGuess();
+    void onRoundComplete();
+    void onGameOver();
 };
 
 #endif // MAINWINDOW_H
