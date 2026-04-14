@@ -1,5 +1,5 @@
-CMakeFiles/test_memory_gui.dir/main.cpp.obj: \
- C:\Qt\test_memory_gui\main.cpp C:\Qt\test_memory_gui\mainwindow.h \
+CMakeFiles/test_memory_gui.dir/mainwindow.cpp.obj: \
+ C:\Qt\test_memory_gui\mainwindow.cpp C:\Qt\test_memory_gui\mainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmainwindow.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -397,6 +397,8 @@ CMakeFiles/test_memory_gui.dir/main.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  C:\Qt\test_memory_gui\colormemory.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QObject \
+ C:/Qt/test_memory_gui/build/Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430/test_memory_gui_autogen/include/ui_mainwindow.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qapplication.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qcoreapplication.h \
@@ -406,4 +408,23 @@ CMakeFiles/test_memory_gui.dir/main.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qguiapplication.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qlocale.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qguiapplication_platform.h
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qguiapplication_platform.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QLabel \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qlabel.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qframe.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qpicture.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qiodevice.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qtextdocument.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qurl.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMenuBar \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmenubar.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmenu.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QPushButton \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qpushbutton.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QSplitter \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qsplitter.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QStatusBar \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qstatusbar.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QWidget

@@ -2,10 +2,10 @@ CMakeFiles/test_memory_gui.dir/test_memory_gui_autogen/mocs_compilation.cpp.obj:
  C:\Qt\test_memory_gui\build\Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430\test_memory_gui_autogen\mocs_compilation.cpp \
  C:\Qt\test_memory_gui\build\Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430\test_memory_gui_autogen\EWIEGA46WW/moc_colormemory.cpp \
  C:/Qt/test_memory_gui/colormemory.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmainwindow.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiglobal.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/QObject \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qobject.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qobjectdefs.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qnamespace.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qglobal.h \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/type_traits \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
@@ -153,14 +153,6 @@ CMakeFiles/test_memory_gui.dir/test_memory_gui_autogen/mocs_compilation.cpp.obj:
  C:/Qt/6.11.0/mingw_64/include/QtCore/qtresource.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qttranslation.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qversiontagging.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qtgui-config.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiexports.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
- C:/Qt/6.11.0/mingw_64/include/QtWidgets/qwidget.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qwindowdefs.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qobjectdefs.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qnamespace.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qcompare.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qstdlibdetection.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qcomparehelpers.h \
@@ -232,8 +224,6 @@ CMakeFiles/test_memory_gui.dir/test_memory_gui_autogen/mocs_compilation.cpp.obj:
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/shared_ptr_atomic.h \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward/auto_ptr.h \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_memory_defs.h \
- C:/Qt/6.11.0/mingw_64/include/QtGui/qwindowdefs_win.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qobject.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qstring.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qchar.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qstringview.h \
@@ -333,6 +323,22 @@ CMakeFiles/test_memory_gui.dir/test_memory_gui_autogen/mocs_compilation.cpp.obj:
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/chrono.h \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
  C:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ctime \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qtmochelpers.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qtmocconstants.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/q20algorithm.h \
+ C:\Qt\test_memory_gui\build\Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430\test_memory_gui_autogen\EWIEGA46WW/moc_mainwindow.cpp \
+ C:/Qt/test_memory_gui/mainwindow.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmainwindow.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiglobal.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qtgui-config.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiexports.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qwidget.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qwindowdefs.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qwindowdefs_win.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qmargins.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/qcheckedint_impl.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/q23utility.h \
@@ -387,6 +393,14 @@ CMakeFiles/test_memory_gui.dir/test_memory_gui_autogen/mocs_compilation.cpp.obj:
  C:/Qt/6.11.0/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qtmochelpers.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qtmocconstants.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/q20algorithm.h
+ C:/Qt/6.11.0/mingw_64/include/QtCore/QTimer \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qtimer.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qbasictimer.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qabstracteventdispatcher.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qeventloop.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qdeadlinetimer.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMessageBox \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmessagebox.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qdialog.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ C:/Qt/test_memory_gui/colormemory.h
