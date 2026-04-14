@@ -23,6 +23,7 @@ private:
     ColorMemory *game;
     void disableColorButtons(bool disable);
     void nextRound();
+    bool canClick;  // можно ли нажимать кнопки
 private slots:
     void on_redButton_clicked();
     void on_blueButton_clicked();
