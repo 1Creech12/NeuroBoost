@@ -1,0 +1,6 @@
+﻿  Points_system.cpp
+C:\Users\LenskayaNV\source\repos\NeuroBoost\Module_4\Points_system.cpp(43,24): error C2601: Points_system::viewing_glasses: недопустимые локальные определения функций
+      C:\Users\LenskayaNV\source\repos\NeuroBoost\Module_4\Points_system.cpp(27,38):
+      эта строка содержит скобку "{", которая пока не имеет парной
+  
+C:\Users\LenskayaNV\source\repos\NeuroBoost\Module_4\Points_system.cpp(27,38): error C1075: "{": не найдена несоответствующая лексема
