@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINGAMES_H
+#define MAINGAMES_H
 
 #include <QMainWindow>
 #include <QTimer>
@@ -15,7 +15,7 @@ using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class MainGames;
 }
 QT_END_NAMESPACE
 
@@ -25,13 +25,13 @@ struct ExcessObject
     QString category;
 };
 
-class MainWindow : public QMainWindow
+class MainGames : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    explicit MainGames(QWidget *parent = nullptr);
+    ~MainGames() override;
 
 private slots:
     // === НАВИГАЦИЯ ===
@@ -82,7 +82,7 @@ private slots:
 
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainGames *ui;
 
     int m_score = 0;          // Текущие очки
     int m_combo = 0;          // Счетчик комбо
@@ -124,4 +124,4 @@ private:
     void stopAllTimers();
     void startGameTimer(int gameType);
 };
-#endif // MAINWINDOW_H
+#endif // MAINGAMES_H

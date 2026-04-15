@@ -1,9 +1,9 @@
-#include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "maingames.h"
+#include "./ui_maingames.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainGames::MainGames(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainGames)
 {
     ui->setupUi(this);
 
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     updateAllStatsLabels();
 }
 
-MainWindow::~MainWindow()
+MainGames::~MainGames()
 {
     m_gameActive = false;
     stopAllTimers();
@@ -38,7 +38,7 @@ void shuffleVector(std::vector<T>& vec) {
     }
 }
 
-void MainWindow::on_sequenceBtn_clicked()
+void MainGames::on_sequenceBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
     m_gameActive = true;
@@ -54,7 +54,7 @@ void MainWindow::on_sequenceBtn_clicked()
 
 }
 
-void MainWindow::on_excessBtn_clicked()
+void MainGames::on_excessBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
     m_currentGame = 2;
@@ -63,7 +63,7 @@ void MainWindow::on_excessBtn_clicked()
 }
 
 
-void MainWindow::on_compareBtn_clicked()
+void MainGames::on_compareBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
     m_currentGame = 3;
@@ -72,7 +72,7 @@ void MainWindow::on_compareBtn_clicked()
 }
 
 
-void MainWindow::on_statermentsBtn_clicked()
+void MainGames::on_statermentsBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
     m_currentGame = 4;
@@ -81,7 +81,7 @@ void MainWindow::on_statermentsBtn_clicked()
 }
 
 
-void MainWindow::on_memoryBtn_clicked()
+void MainGames::on_memoryBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
     m_currentGame = 5;
@@ -89,7 +89,7 @@ void MainWindow::on_memoryBtn_clicked()
     startGameTimer(5);
 }
 
-void MainWindow::startTimerMonitoring()
+void MainGames::startTimerMonitoring()
     {
         // Запускаем мониторинг в отдельном потоке
         QThread *monitorThread = QThread::create([this]() {
@@ -138,7 +138,7 @@ void MainWindow::startTimerMonitoring()
         monitorThread->start();
     }
 
-void MainWindow::on_randomPlayBtn_clicked()
+void MainGames::on_randomPlayBtn_clicked()
 {
 
     int randomPage = QRandomGenerator::global()->bounded(1, 6);
@@ -153,46 +153,46 @@ void MainWindow::on_randomPlayBtn_clicked()
     }
 }
 
-void MainWindow::on_BtnSeqBack_clicked()
+void MainGames::on_BtnSeqBack_clicked()
 {
     stopAllTimers();
     returnToMainMenu();
 }
 
-void MainWindow::on_btnExcessBack_clicked()
-{
-    stopAllTimers();
-    returnToMainMenu();
-}
-
-
-void MainWindow::on_btnCompareBack_clicked()
+void MainGames::on_btnExcessBack_clicked()
 {
     stopAllTimers();
     returnToMainMenu();
 }
 
 
-void MainWindow::on_btnStatermentBack_clicked()
+void MainGames::on_btnCompareBack_clicked()
 {
     stopAllTimers();
     returnToMainMenu();
 }
 
 
-void MainWindow::on_btnMemoryBack_clicked()
+void MainGames::on_btnStatermentBack_clicked()
 {
     stopAllTimers();
     returnToMainMenu();
 }
 
-void MainWindow::returnToMainMenu()
+
+void MainGames::on_btnMemoryBack_clicked()
+{
+    stopAllTimers();
+    returnToMainMenu();
+}
+
+void MainGames::returnToMainMenu()
 {
     ui->stackedWidget->setCurrentIndex(0);
     updateAllStatsLabels();
 }
 
-void MainWindow::generateSequence()
+void MainGames::generateSequence()
 {
     // Генерация арифметической прогрессии
     int start = QRandomGenerator::global()->bounded(1, 20);
@@ -224,7 +224,7 @@ void MainWindow::generateSequence()
     ui->labelSeqFeedback->clear();
 }
 
-void MainWindow::on_btnSeqSubmit_clicked()
+void MainGames::on_btnSeqSubmit_clicked()
 {
     if (!m_gameActive) return;
 
@@ -279,7 +279,7 @@ void MainWindow::on_btnSeqSubmit_clicked()
     }
 }
 
-void MainWindow::generateExcess()
+void MainGames::generateExcess()
 {
     // База данных объектов по категориям
     vector<ExcessObject> allObjects = {
@@ -413,7 +413,7 @@ void MainWindow::generateExcess()
     qDebug() << "Excess: категория =" << targetCategory << ", лишний индекс =" << m_correctOption;
 }
 
-void MainWindow::on_btnOpt1_clicked()
+void MainGames::on_btnOpt1_clicked()
 {
     if (!m_gameActive) return;
 
@@ -435,7 +435,7 @@ void MainWindow::on_btnOpt1_clicked()
         updateCombo(false);
     }
 }
-void MainWindow::on_btnOpt2_clicked()
+void MainGames::on_btnOpt2_clicked()
 {
     if (!m_gameActive) return;
 
@@ -457,7 +457,7 @@ void MainWindow::on_btnOpt2_clicked()
         updateCombo(false);
     }
 }
-void MainWindow::on_btnOpt3_clicked()
+void MainGames::on_btnOpt3_clicked()
 {
     if (!m_gameActive) return;
 
@@ -479,7 +479,7 @@ void MainWindow::on_btnOpt3_clicked()
         updateCombo(false);
     }
 }
-void MainWindow::on_btnOpt4_clicked()
+void MainGames::on_btnOpt4_clicked()
 {
     if (!m_gameActive) return;
 
@@ -502,7 +502,7 @@ void MainWindow::on_btnOpt4_clicked()
     }
 }
 
-void MainWindow::generateCompare()
+void MainGames::generateCompare()
 {
     QString operators[] = {"+", "-", "×", "÷"};
 
@@ -593,7 +593,7 @@ void MainWindow::generateCompare()
     ui->labelCompareFeedback->clear();
 }
 
-void MainWindow::on_btnGreater_clicked()
+void MainGames::on_btnGreater_clicked()
 {
     if (!m_gameActive) return;
 
@@ -628,7 +628,7 @@ void MainWindow::on_btnGreater_clicked()
     }
 }
 
-void MainWindow::on_btnLess_clicked()
+void MainGames::on_btnLess_clicked()
 {
     if (!m_gameActive) return;
 
@@ -663,7 +663,7 @@ void MainWindow::on_btnLess_clicked()
     }
 }
 
-void MainWindow::on_btnEqual_clicked()
+void MainGames::on_btnEqual_clicked()
 {
     if (!m_gameActive) return;
 
@@ -698,7 +698,7 @@ void MainWindow::on_btnEqual_clicked()
     }
 }
 
-void MainWindow::generateStatement()
+void MainGames::generateStatement()
 {
     int num = QRandomGenerator::global()->bounded(2, 50);
     QString statements[4] = {
@@ -725,7 +725,7 @@ void MainWindow::generateStatement()
     ui->labelStatementFeedback->clear();
 }
 
-void MainWindow::on_btnTrue_clicked() {
+void MainGames::on_btnTrue_clicked() {
     if (!m_gameActive) return;
     bool correct = (m_correctStatement == true);
 
@@ -751,7 +751,7 @@ void MainWindow::on_btnTrue_clicked() {
         });
     }
 }
-void MainWindow::on_btnFalse_clicked() {
+void MainGames::on_btnFalse_clicked() {
     if (!m_gameActive) return;
     bool correct = (m_correctStatement == false);
 
@@ -778,7 +778,7 @@ void MainWindow::on_btnFalse_clicked() {
     }
 }
 
-void MainWindow::generateMemory()
+void MainGames::generateMemory()
 {
     QString symbols[] = {"А", "У", "В", "Ч", "Я", "Б", "Х", "Щ", "Й", "Р"};
     m_correctSymbols.clear();
@@ -799,7 +799,7 @@ void MainWindow::generateMemory()
     ui->labelMemoryFeedback->clear();
 }
 
-void MainWindow::on_btnMemorySubmit_clicked()
+void MainGames::on_btnMemorySubmit_clicked()
 {
     if (!m_gameActive) return;
 
@@ -832,7 +832,7 @@ void MainWindow::on_btnMemorySubmit_clicked()
 
 // Таймер
 
-void MainWindow::startGameTimer(int gameType)
+void MainGames::startGameTimer(int gameType)
 {
     m_gameActive = true;
     m_timeLimit = 30 - (m_difficulty * 2);
@@ -886,7 +886,7 @@ void MainWindow::startGameTimer(int gameType)
     monitor->start();
 }
 
-void MainWindow::stopAllTimers()
+void MainGames::stopAllTimers()
 {
     m_gameActive = false;
     m_currentGame = 0;
@@ -894,14 +894,14 @@ void MainWindow::stopAllTimers()
 
 // Система очков и статистика
 
-void MainWindow::addScore(int points)
+void MainGames::addScore(int points)
 {
     m_score += points;
     updateAllStatsLabels();
     adjustDifficulty();
 }
 
-void MainWindow::deductScore(int points)
+void MainGames::deductScore(int points)
 {
     m_score -= points;
     if (m_score < 0) m_score = 0;
@@ -909,7 +909,7 @@ void MainWindow::deductScore(int points)
     adjustDifficulty();
 }
 
-void MainWindow::updateCombo(bool correct)
+void MainGames::updateCombo(bool correct)
 {
     if (correct) {
         m_combo++;
@@ -919,7 +919,7 @@ void MainWindow::updateCombo(bool correct)
     updateAllStatsLabels();
 }
 
-void MainWindow::adjustDifficulty()
+void MainGames::adjustDifficulty()
 {
     // Сложность растет каждые 50 очков
     int newDifficulty = 1 + (m_score / 50);
@@ -928,7 +928,7 @@ void MainWindow::adjustDifficulty()
     updateAllStatsLabels();
 }
 
-void MainWindow::updateAllStatsLabels()
+void MainGames::updateAllStatsLabels()
 {
     // Обновляем лейблы на главной странице
     ui->label_score->setText("🏆 Очки: " + QString::number(m_score));

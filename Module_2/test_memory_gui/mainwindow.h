@@ -7,19 +7,19 @@
 #include "colormemory.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class MainGames;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainGames : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit MainGames(QWidget *parent = nullptr);
+    ~MainGames();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainGames *ui;
     ColorMemory *game;
     void disableColorButtons(bool disable);
     void nextRound();
