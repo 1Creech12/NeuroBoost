@@ -14,11 +14,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
+        maingames.cpp
+        maingames.h
         Timer.cpp
         Timer.h
-        mainwindow.ui
+        maingames.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

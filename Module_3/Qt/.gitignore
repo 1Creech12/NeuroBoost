@@ -82,3 +82,8 @@ CMakeLists.txt.user*
 .uic/
 /build*/
 /.qtcreator/
+
+build/
+*.user
+.qtcreator/
+.qtc_clangd/

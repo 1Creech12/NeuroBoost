@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/Users/creech12/projects/NeuroBoost/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtCore.framework/Headers -iframework /Users/creech12/Qt/6.11.0/macos/lib -isystem /Users/creech12/Qt/6.11.0/macos/mkspecs/macx-clang -isystem /Users/creech12/Qt/6.11.0/macos/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtWidgets.framework/Headers -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtGui.framework/Headers -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=13 -o CMakeFiles/Qt.dir/Qt_autogen/mocs_compilation.cpp.o -c /Users/creech12/projects/NeuroBoost/build/Qt_autogen/mocs_compilation.cpp",
+  "file": "/Users/creech12/projects/NeuroBoost/build/Qt_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/Qt.dir/Qt_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/Users/creech12/projects/NeuroBoost/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtCore.framework/Headers -iframework /Users/creech12/Qt/6.11.0/macos/lib -isystem /Users/creech12/Qt/6.11.0/macos/mkspecs/macx-clang -isystem /Users/creech12/Qt/6.11.0/macos/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtWidgets.framework/Headers -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtGui.framework/Headers -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=13 -o CMakeFiles/Qt.dir/main.cpp.o -c /Users/creech12/projects/NeuroBoost/Module_3/Qt/main.cpp",
+  "file": "/Users/creech12/projects/NeuroBoost/Module_3/Qt/main.cpp",
+  "output": "CMakeFiles/Qt.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/creech12/projects/NeuroBoost/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtCore.framework/Headers -iframework /Users/creech12/Qt/6.11.0/macos/lib -isystem /Users/creech12/Qt/6.11.0/macos/mkspecs/macx-clang -isystem /Users/creech12/Qt/6.11.0/macos/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtWidgets.framework/Headers -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtGui.framework/Headers -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=13 -o CMakeFiles/Qt.dir/mainwindow.cpp.o -c /Users/creech12/projects/NeuroBoost/Module_3/Qt/mainwindow.cpp",
+  "file": "/Users/creech12/projects/NeuroBoost/Module_3/Qt/mainwindow.cpp",
+  "output": "CMakeFiles/Qt.dir/mainwindow.cpp.o"
+},
+{
+  "directory": "/Users/creech12/projects/NeuroBoost/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtCore.framework/Headers -iframework /Users/creech12/Qt/6.11.0/macos/lib -isystem /Users/creech12/Qt/6.11.0/macos/mkspecs/macx-clang -isystem /Users/creech12/Qt/6.11.0/macos/include -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtWidgets.framework/Headers -isystem /Users/creech12/Qt/6.11.0/macos/lib/QtGui.framework/Headers -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=13 -o CMakeFiles/Qt.dir/Timer.cpp.o -c /Users/creech12/projects/NeuroBoost/Module_3/Qt/Timer.cpp",
+  "file": "/Users/creech12/projects/NeuroBoost/Module_3/Qt/Timer.cpp",
+  "output": "CMakeFiles/Qt.dir/Timer.cpp.o"
+}
+]
