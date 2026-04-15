@@ -13,4 +13,5 @@ public:
     ~Timer();
     void reset();
     int get() const;
+    void stop();
 };
