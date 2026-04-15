@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_untitled_FILE /home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/untitled)
+set(__QT_DEPLOY_TARGET_untitled_TYPE EXECUTABLE)
