@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.19)
 project(untitled LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
-
 qt_standard_project_setup()
+
+# 🔑 ОБЯЗАТЕЛЬНО: для std::thread, std::atomic из твоего Timer.h
+find_package(Threads REQUIRED)
 
 qt_add_executable(untitled
     WIN32 MACOSX_BUNDLE
@@ -11,13 +13,18 @@ qt_add_executable(untitled
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    ../../Timer/Timer.cpp  # 🔑 Исходник таймера (путь от CMakeLists.txt)
 )
 
 target_link_libraries(untitled
     PRIVATE
         Qt::Core
         Qt::Widgets
+        Threads::Threads   # 🔑 Линковка библиотеки потоков
 )
+
+# 🔑 Скажи компилятору, где искать заголовок Timer.h
+target_include_directories(untitled PRIVATE ../../Timer)
 
 install(TARGETS untitled
     BUNDLE  DESTINATION .
