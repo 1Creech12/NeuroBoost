@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QRandomGenerator>
+#include <QVector>
+#include <QString>
+#include <QDebug>
+#include <QThread>
+#include <QMetaObject>
 #include "Timer.h"
 
 using namespace std;
@@ -14,6 +19,11 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+struct ExcessObject
+{
+    QString name;
+    QString category;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -43,10 +53,10 @@ private slots:
     void generateSequence();             // Генерация новой последовательности
 
     // Excess
-    void on_btnOption1_clicked();
-    void on_btnOption2_clicked();
-    void on_btnOption3_clicked();
-    void on_btnOption4_clicked();
+    void on_btnOpt1_clicked();
+    void on_btnOpt2_clicked();
+    void on_btnOpt3_clicked();
+    void on_btnOpt4_clicked();
     void generateExcess();
 
     // Compare
@@ -68,6 +78,7 @@ private slots:
     void addScore(int points);           // Добавление очков
     void updateCombo(bool correct);      // Обновление комбо
     void adjustDifficulty();             // Корректировка сложности
+    void deductScore(int points);        // Отнимание очков
 
 
 private:
@@ -78,6 +89,18 @@ private:
     int m_difficulty = 1;     // Уровень сложности (1-3)
     int bestScore = 0;
     int m_currentGame = 0;
+    //int add_point = 10;
+    int add_point_Seq = 10;
+    int add_point_Excess = 10;
+    int add_point_Compare = 10;
+    int add_point_Statement = 10;
+    int add_point_Memory = 10;
+    //int ded_point = 5;
+    int ded_point_Seq = 5;
+    int ded_point_Excess = 5;
+    int ded_point_Compare = 5;
+    int ded_point_Statement = 5;
+    int ded_point_Memory = 5;
 
     // Данные игр
     int m_correctAnswer = 0;  // Правильный ответ для sequence
@@ -92,6 +115,7 @@ private:
     QString m_correctSymbols;
     bool m_correctStatement = false;
     char m_correctCompare = '=';
+    vector<ExcessObject> m_currentObjects;
 
     // === ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ===
     void updateAllStatsLabels();         // Обновление всех лейблов статистики

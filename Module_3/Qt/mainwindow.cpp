@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QDebug>
-#include <QThread>
-#include <QMetaObject>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +28,14 @@ MainWindow::~MainWindow()
     delete m_statementTimer;
     delete m_memoryTimer;
     delete ui;
+}
+
+template<typename T>
+void shuffleVector(std::vector<T>& vec) {
+    for (int i = vec.size() - 1; i > 0; i--) {
+        int j = QRandomGenerator::global()->bounded(i + 1);
+        std::swap(vec[i], vec[j]);
+    }
 }
 
 void MainWindow::on_sequenceBtn_clicked()
@@ -236,7 +241,7 @@ void MainWindow::on_btnSeqSubmit_clicked()
     int timeSpent = m_seqTimer->get();
 
     if (correct) {
-        int totalPoint = 10+m_combo*5;
+        int totalPoint = add_point_Seq+m_combo*5;
 
         ui->labelSeqFeedback->setText("Верно +" + QString::number(totalPoint));
         addScore(totalPoint);
@@ -257,70 +262,251 @@ void MainWindow::on_btnSeqSubmit_clicked()
         });
     } else {
         ui->labelSeqFeedback->setText("Неверно, правильно: " + QString::number(m_correctAnswer));
+        deductScore(ded_point_Seq);
         updateCombo(false);
+
+        QTimer::singleShot(1500, this, [this]() {
+            if (ui->stackedWidget->currentIndex() == 1){
+                m_gameActive = true;
+                generateSequence();
+                m_seqTimer->reset();
+                m_timeLimit = 30 - (m_difficulty * 3);
+                if (m_timeLimit < 10) m_timeLimit = 10;
+                ui->labelSeqTimer->setText("Время: " + QString::number(m_timeLimit) + "с");
+                startTimerMonitoring();
+            }
+        });
     }
 }
 
 void MainWindow::generateExcess()
 {
-    int base = QRandomGenerator::global()->bounded(1, 10);
-    int options[4];
-    int oddIndex = QRandomGenerator::global()->bounded(4);
+    // База данных объектов по категориям
+    vector<ExcessObject> allObjects = {
+        {"🍎 Яблоко", "Фрукт"},
+        {"🍌 Банан", "Фрукт"},
+        {"🍊 Апельсин", "Фрукт"},
+        {"🍇 Виноград", "Фрукт"},
+        {"🍓 Клубника", "Фрукт"},
 
-    // Все четные, один нечетный (или наоборот)
-    bool makeEven = QRandomGenerator::global()->bounded(2);
-    for (int i = 0; i < 4; i++) {
-        if (i == oddIndex) {
-            options[i] = makeEven ? base * 2 + 1 : base * 2;
-        } else {
-            options[i] = makeEven ? (base + i) * 2 : (base + i) * 2 + 1;
+        {"🥕 Морковь", "Овощ"},
+        {"🥔 Картофель", "Овощ"},
+        {"🥦 Брокколи", "Овощ"},
+        {"🍅 Помидор", "Овощ"},
+        {"🥒 Огурец", "Овощ"},
+
+
+        {"🐕 Собака", "Животное"},
+        {"🐈 Кошка", "Животное"},
+        {"🐄 Корова", "Животное"},
+        {"🐑 Овца", "Животное"},
+        {"🐎 Лошадь", "Животное"},
+
+        {"🚗 Машина", "Транспорт"},
+        {"✈️ Самолет", "Транспорт"},
+        {"🚂 Поезд", "Транспорт"},
+        {"🚲 Велосипед", "Транспорт"},
+        {"🛴 Самокат", "Транспорт"},
+
+        {"🪑 Стул", "Мебель"},
+        {"🛏️ Кровать", "Мебель"},
+        {"📦 Шкаф", "Мебель"},
+        {"🛋️ Диван", "Мебель"},
+
+        {"🔨 Молоток", "Инструмент"},
+        {"🪛 Отвертка", "Инструмент"},
+        {"🔧 Гаечный ключ", "Инструмент"},
+        {"⛏️ Кирка", "Инструмент"},
+
+        {"💧 Вода", "Напиток"},
+        {"🥛 Молоко", "Напиток"},
+        {"☕ Кофе", "Напиток"},
+        {"🍵 Чай", "Напиток"},
+
+        {"👕 Футболка", "Одежда"},
+        {"👖 Джинсы", "Одежда"},
+        {"🧥 Куртка", "Одежда"},
+        {"🧦 Носки", "Одежда"}
+    };
+
+    m_currentObjects.clear();
+
+    // Выбираем случайную категорию (для 3 объектов)
+    int categoryCount = 8;  // количество категорий
+    int mainCategory = QRandomGenerator::global()->bounded(categoryCount);
+
+    QString targetCategory;
+    switch(mainCategory) {
+    case 0: targetCategory = "Фрукт"; break;
+    case 1: targetCategory = "Овощ"; break;
+    case 2: targetCategory = "Животное"; break;
+    case 3: targetCategory = "Транспорт"; break;
+    case 4: targetCategory = "Мебель"; break;
+    case 5: targetCategory = "Инструмент"; break;
+    case 6: targetCategory = "Напиток"; break;
+    case 7: targetCategory = "Одежда"; break;
+    }
+
+    // Собираем объекты нужной категории
+    vector<ExcessObject> sameCategory;
+    for (const auto& obj : allObjects) {
+        if (obj.category == targetCategory) {
+            sameCategory.push_back(obj);
         }
     }
-    m_correctOption = oddIndex;
 
-    ui->btnOpt1->setText(QString::number(options[0]));
-    ui->btnOpt2->setText(QString::number(options[1]));
-    ui->btnOpt3->setText(QString::number(options[2]));
-    ui->btnOpt4->setText(QString::number(options[3]));
-    ui->labelExcessQuestion->setText("Какое число лишнее?");
+    // Выбираем 3 случайных объекта из одной категории
+    shuffleVector(m_currentObjects);
+    for (int i = 0; i < 3 && i < (int)sameCategory.size(); i++) {
+        m_currentObjects.push_back(sameCategory[i]);
+    }
+
+    // Выбираем 1 объект из другой категории (лишний)
+    int otherCategory;
+    do {
+        otherCategory = QRandomGenerator::global()->bounded(categoryCount);
+    } while (otherCategory == mainCategory);
+
+    QString otherCat;
+    switch(otherCategory) {
+    case 0: otherCat = "Фрукт"; break;
+    case 1: otherCat = "Овощ"; break;
+    case 2: otherCat = "Животное"; break;
+    case 3: otherCat = "Транспорт"; break;
+    case 4: otherCat = "Мебель"; break;
+    case 5: otherCat = "Инструмент"; break;
+    case 6: otherCat = "Напиток"; break;
+    case 7: otherCat = "Одежда"; break;
+    }
+
+    vector<ExcessObject> otherCategoryObjects;
+    for (const auto& obj : allObjects) {
+        if (obj.category == otherCat) {
+            otherCategoryObjects.push_back(obj);
+        }
+    }
+
+    // Добавляем лишний объект
+    int randomIndex = QRandomGenerator::global()->bounded((int)otherCategoryObjects.size());
+    m_currentObjects.push_back(otherCategoryObjects[randomIndex]);
+
+    // Перемешиваем порядок
+    shuffleVector(m_currentObjects);
+
+    // Находим индекс лишнего объекта (у него категория отличается)
+    for (int i = 0; i < 4; i++) {
+        if (m_currentObjects[i].category != targetCategory) {
+            m_correctOption = i;
+            break;
+        }
+    }
+
+    // Отображаем на кнопках
+    ui->btnOpt1->setText(m_currentObjects[0].name);
+    ui->btnOpt2->setText(m_currentObjects[1].name);
+    ui->btnOpt3->setText(m_currentObjects[2].name);
+    ui->btnOpt4->setText(m_currentObjects[3].name);
+
+    ui->labelExcessQuestion->setText("Какой объект лишний?");
     ui->labelExcessFeedback->clear();
+
+    qDebug() << "Excess: категория =" << targetCategory << ", лишний индекс =" << m_correctOption;
 }
 
-void MainWindow::on_btnOption1_clicked() {
+void MainWindow::on_btnOpt1_clicked()
+{
+    if (!m_gameActive) return;
+
     bool correct = (m_correctOption == 0);
-    ui->labelExcessFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateExcess(); startGameTimer(2); }))
-            : updateCombo(false);
+
+    if (correct) {
+        QString category = m_currentObjects[0].category;
+        ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
+        addScore(add_point_Excess + m_combo * 5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(2000, this, [this]() {
+            generateExcess();
+            startGameTimer(2);
+        });
+    } else {
+        ui->labelExcessFeedback->setText("Неверно! Попробуй еще");
+        deductScore(ded_point_Excess);
+        updateCombo(false);
+    }
 }
-void MainWindow::on_btnOption2_clicked() {
+void MainWindow::on_btnOpt2_clicked()
+{
+    if (!m_gameActive) return;
+
     bool correct = (m_correctOption == 1);
-    ui->labelExcessFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateExcess(); startGameTimer(2); }))
-            : updateCombo(false);
+
+    if (correct) {
+        QString category = m_currentObjects[0].category;
+        ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
+        addScore(add_point_Excess + m_combo * 5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(2000, this, [this]() {
+            generateExcess();
+            startGameTimer(2);
+        });
+    } else {
+        ui->labelExcessFeedback->setText("Неверно! Попробуй еще");
+        deductScore(ded_point_Excess);
+        updateCombo(false);
+    }
 }
-void MainWindow::on_btnOption3_clicked() {
+void MainWindow::on_btnOpt3_clicked()
+{
+    if (!m_gameActive) return;
+
     bool correct = (m_correctOption == 2);
-    ui->labelExcessFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateExcess(); startGameTimer(2); }))
-            : updateCombo(false);
+
+    if (correct) {
+        QString category = m_currentObjects[0].category;
+        ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
+        addScore(add_point_Excess + m_combo * 5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(2000, this, [this]() {
+            generateExcess();
+            startGameTimer(2);
+        });
+    } else {
+        ui->labelExcessFeedback->setText("Неверно! Попробуй еще");
+        deductScore(ded_point_Excess);
+        updateCombo(false);
+    }
 }
-void MainWindow::on_btnOption4_clicked() {
+void MainWindow::on_btnOpt4_clicked()
+{
+    if (!m_gameActive) return;
+
     bool correct = (m_correctOption == 3);
-    ui->labelExcessFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateExcess(); startGameTimer(2); }))
-            : updateCombo(false);
+
+    if (correct) {
+        QString category = m_currentObjects[0].category;
+        ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
+        addScore(add_point_Excess + m_combo * 5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(2000, this, [this]() {
+            generateExcess();
+            startGameTimer(2);
+        });
+    } else {
+        ui->labelExcessFeedback->setText("Неверно! Попробуй еще");
+        deductScore(ded_point_Excess);
+        updateCombo(false);
+    }
 }
 
 void MainWindow::generateCompare()
 {
-    // Случайный выбор операторов для левой и правой части
     QString operators[] = {"+", "-", "×", "÷"};
 
-    // Генерируем левое выражение
+    // левое выражение
     int opLeft = QRandomGenerator::global()->bounded(4);
     int a, b, leftResult;
     QString leftStr;
@@ -344,7 +530,7 @@ void MainWindow::generateCompare()
         leftResult = a * b;
         leftStr = QString::number(a) + " × " + QString::number(b);
         break;
-    case 3: // Деление (без остатка)
+    case 3: // Деление
         b = QRandomGenerator::global()->bounded(2, 10);
         leftResult = QRandomGenerator::global()->bounded(2, 10);
         a = b * leftResult;
@@ -352,7 +538,7 @@ void MainWindow::generateCompare()
         break;
     }
 
-    // Генерируем правое выражение
+    // правое выражение
     int opRight = QRandomGenerator::global()->bounded(4);
     int c, d, rightResult;
     QString rightStr;
@@ -376,7 +562,7 @@ void MainWindow::generateCompare()
         rightResult = c * d;
         rightStr = QString::number(c) + " × " + QString::number(d);
         break;
-    case 3: // Деление (без остатка)
+    case 3: // Деление
         d = QRandomGenerator::global()->bounded(2, 10);
         rightResult = QRandomGenerator::global()->bounded(2, 10);
         c = d * rightResult;
@@ -384,18 +570,14 @@ void MainWindow::generateCompare()
         break;
     }
 
-    // Сложность влияет на диапазон чисел
     if (m_difficulty >= 3) {
-        // Увеличиваем числа для высокой сложности
         leftResult = leftResult;
         rightResult = rightResult;
     }
 
-    // Отображаем выражения
     ui->labelCompareLeft->setText(leftStr + " = ?");
     ui->labelCompareRight->setText(rightStr + " = ?");
 
-    // Определяем правильный знак сравнения
     if (leftResult > rightResult) {
         m_correctCompare = '>';
     } else if (leftResult < rightResult) {
@@ -419,7 +601,7 @@ void MainWindow::on_btnGreater_clicked()
 
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
-        addScore(10 + m_combo*5);
+        addScore(add_point_Compare + m_combo*5);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -435,7 +617,14 @@ void MainWindow::on_btnGreater_clicked()
         else correctSign = "=";
 
         ui->labelCompareFeedback->setText("Неверно! Правильно: " + correctSign);
+        deductScore(ded_point_Compare);
         updateCombo(false);
+        QTimer::singleShot(1500, this, [this]() {
+            if (ui->stackedWidget->currentIndex() == 3) {
+                generateCompare();
+                startGameTimer(3);
+            }
+        });
     }
 }
 
@@ -447,7 +636,7 @@ void MainWindow::on_btnLess_clicked()
 
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
-        addScore(10 + m_combo*5);
+        addScore(add_point_Compare + m_combo*5);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -463,7 +652,14 @@ void MainWindow::on_btnLess_clicked()
         else correctSign = "=";
 
         ui->labelCompareFeedback->setText("Неверно! Правильно: " + correctSign);
+        deductScore(ded_point_Compare);
         updateCombo(false);
+        QTimer::singleShot(1500, this, [this]() {
+            if (ui->stackedWidget->currentIndex() == 3) {
+                generateCompare();
+                startGameTimer(3);
+            }
+        });
     }
 }
 
@@ -475,7 +671,7 @@ void MainWindow::on_btnEqual_clicked()
 
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
-        addScore(10 + m_combo*5);
+        addScore(add_point_Compare + m_combo*5);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -491,7 +687,14 @@ void MainWindow::on_btnEqual_clicked()
         else correctSign = "=";
 
         ui->labelCompareFeedback->setText("Неверно! Правильно: " + correctSign);
+        deductScore(ded_point_Compare);
         updateCombo(false);
+        QTimer::singleShot(1500, this, [this]() {
+            if (ui->stackedWidget->currentIndex() == 3) {
+                generateCompare();
+                startGameTimer(3);
+            }
+        });
     }
 }
 
@@ -523,18 +726,56 @@ void MainWindow::generateStatement()
 }
 
 void MainWindow::on_btnTrue_clicked() {
+    if (!m_gameActive) return;
     bool correct = (m_correctStatement == true);
-    ui->labelStatementFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateStatement(); startGameTimer(4); }))
-            : updateCombo(false);
+
+    if (correct) {
+        ui->labelStatementFeedback->setText("Верно! +" + QString::number(add_point_Statement + m_combo*5));
+        addScore(add_point_Statement + m_combo*5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(1500, this, [this]() {
+            generateStatement();
+            startGameTimer(4);
+        });
+    } else {
+        ui->labelStatementFeedback->setText("Неверно! -5");
+        deductScore(5);
+        updateCombo(false);
+
+        // Новое задание после ошибки
+        QTimer::singleShot(1000, this, [this]() {
+            generateStatement();
+            m_statementTimer->reset();
+            ui->labelStatementTimer->setText("Время: " + QString::number(m_timeLimit) + "с");
+        });
+    }
 }
 void MainWindow::on_btnFalse_clicked() {
+    if (!m_gameActive) return;
     bool correct = (m_correctStatement == false);
-    ui->labelStatementFeedback->setText(correct ? "Верно!" : "Неверно");
-    correct ? (addScore(10 + m_combo*5), updateCombo(true), m_gameActive = false,
-               QTimer::singleShot(1500, this, [this](){ generateStatement(); startGameTimer(4); }))
-            : updateCombo(false);
+
+    if (correct) {
+        ui->labelStatementFeedback->setText("Верно! +" + QString::number(add_point_Statement + m_combo*5));
+        addScore(add_point_Statement + m_combo*5);
+        updateCombo(true);
+        m_gameActive = false;
+        QTimer::singleShot(1500, this, [this]() {
+            generateStatement();
+            startGameTimer(4);
+        });
+    } else {
+        ui->labelStatementFeedback->setText("Неверно! -5");
+        deductScore(5);
+        updateCombo(false);
+
+        // Новое задание после ошибки
+        QTimer::singleShot(1000, this, [this]() {
+            generateStatement();
+            m_statementTimer->reset();
+            ui->labelStatementTimer->setText("Время: " + QString::number(m_timeLimit) + "с");
+        });
+    }
 }
 
 void MainWindow::generateMemory()
@@ -567,7 +808,7 @@ void MainWindow::on_btnMemorySubmit_clicked()
 
     if (correct) {
         ui->labelMemoryFeedback->setText("Верно! +" + QString::number(15 + m_combo*5));
-        addScore(15 + m_combo*5);
+        addScore(add_point_Memory + m_combo*5);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -578,7 +819,14 @@ void MainWindow::on_btnMemorySubmit_clicked()
         });
     } else {
         ui->labelMemoryFeedback->setText("Неверно! Было: " + m_correctSymbols);
+        deductScore(ded_point_Memory);
         updateCombo(false);
+        QTimer::singleShot(1500, this, [this]() {
+            if (ui->stackedWidget->currentIndex() == 5) {
+                generateMemory();
+                startGameTimer(5);
+            }
+        });
     }
 }
 
@@ -653,6 +901,14 @@ void MainWindow::addScore(int points)
     adjustDifficulty();
 }
 
+void MainWindow::deductScore(int points)
+{
+    m_score -= points;
+    if (m_score < 0) m_score = 0;
+    updateAllStatsLabels();
+    adjustDifficulty();
+}
+
 void MainWindow::updateCombo(bool correct)
 {
     if (correct) {
@@ -693,9 +949,3 @@ void MainWindow::updateAllStatsLabels()
         ui->labelBestScore->setText("Рекорд: " + QString::number(bestScore));
     }
 }
-
-
-
-
-
-
