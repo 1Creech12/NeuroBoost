@@ -2,7 +2,8 @@
 #define COLORMEMORY_H
 
 #include <QObject>
-
+#include <QRandomGenerator>
+#include <QDebug>
 class ColorMemory : public QObject
 {
     Q_OBJECT
@@ -10,6 +11,7 @@ private:
     QVector<QString> sequence; // последовательность
     int currentIndex; // какой цвет сейчас жмем (индекс)
     bool gameActive;    // активна ли игра
+    bool isProcessing;
 public:
     explicit ColorMemory(QObject *parent = nullptr);
 

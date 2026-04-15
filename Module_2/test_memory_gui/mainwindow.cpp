@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), canClick(true)
 {
     ui->setupUi(this);
 
@@ -31,24 +31,32 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_redButton_clicked()
 {
+    if (!canClick) return;  // Защита
+    canClick = false;
     game->checkColor("red");
 }
 
 
 void MainWindow::on_blueButton_clicked()
 {
+    if (!canClick) return;  // Защита
+    canClick = false;
     game->checkColor("blue");
 }
 
 
 void MainWindow::on_yellowButton_clicked()
 {
+    if (!canClick) return;  // Защита
+    canClick = false;
     game->checkColor("yellow");
 }
 
 
 void MainWindow::on_greenButton_clicked()
 {
+    if (!canClick) return;  // Защита
+    canClick = false;
     game->checkColor("green");
 }
 
@@ -58,6 +66,7 @@ void MainWindow::on_startButton_clicked()
     game->reset();
     game->startNewRound();
     disableColorButtons(false);
+    canClick = true;
     ui->startButton->setEnabled(false);
 }
 
@@ -76,6 +85,7 @@ void MainWindow::onUnCorrectGuess() {
 void MainWindow::onRoundComplete() {
     ui->statusText->setText("Раунд пройден!");
     disableColorButtons(true);
+    canClick = false;
 
     // Задержка перед следующим раундом
     QTimer::singleShot(1500, this, &MainWindow::nextRound);
@@ -90,6 +100,7 @@ void MainWindow::onGameOver() {
 void MainWindow::nextRound() {
     game->startNewRound();
     disableColorButtons(false);
+    canClick = true;
 }
 
 void MainWindow::disableColorButtons(bool disable) {
