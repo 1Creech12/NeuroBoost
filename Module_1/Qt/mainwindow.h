@@ -17,19 +17,23 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-    void on_pushButtonNext_clicked();
-    void on_lineEdit_returnPressed(); // Слот для обработки нажатия Enter
+    void on_lineEdit_returnPressed(); // Единственный обработчик
 
 private:
     Ui::MainWindow *ui;
 
-    // Члены класса для хранения состояния текущего примера
-    int currentA;
-    int currentB;
+    bool isProcessing; // Защита от двойных нажатий
+    int currentA, currentB;
     char currentOp;
+    int nums[4];
+    char ops[3];
     int difficulty;
+    int problemsSolved;
+    bool isComplexMode;
+    bool gameEnded;
 
-    void generateProblem(); // Вспомогательная функция генерации
+    void generateProblem();
+    int evaluateComplex();
 };
 
 #endif // MAINWINDOW_H

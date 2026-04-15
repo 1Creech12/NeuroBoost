@@ -26,13 +26,13 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
     QLabel *label;
     QVBoxLayout *verticalLayout;
     QLineEdit *lineEdit;
-    QPushButton *pushButtonNext;
     QPushButton *pushButton;
+    QLabel *label_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -43,36 +43,36 @@ public:
         MainWindow->resize(800, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        widget = new QWidget(centralwidget);
-        widget->setObjectName("widget");
-        widget->setGeometry(QRect(240, 170, 284, 118));
-        verticalLayout_2 = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(centralwidget);
+        layoutWidget->setObjectName("layoutWidget");
+        layoutWidget->setGeometry(QRect(240, 170, 284, 118));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(widget);
+        label = new QLabel(layoutWidget);
         label->setObjectName("label");
 
         verticalLayout_2->addWidget(label);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName("verticalLayout");
-        lineEdit = new QLineEdit(widget);
+        lineEdit = new QLineEdit(layoutWidget);
         lineEdit->setObjectName("lineEdit");
 
         verticalLayout->addWidget(lineEdit);
 
-        pushButtonNext = new QPushButton(widget);
-        pushButtonNext->setObjectName("pushButtonNext");
-
-        verticalLayout->addWidget(pushButtonNext);
-
-        pushButton = new QPushButton(widget);
+        pushButton = new QPushButton(layoutWidget);
         pushButton->setObjectName("pushButton");
 
         verticalLayout->addWidget(pushButton);
 
 
         verticalLayout_2->addLayout(verticalLayout);
+
+        label_2 = new QLabel(layoutWidget);
+        label_2->setObjectName("label_2");
+
+        verticalLayout_2->addWidget(label_2);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -92,8 +92,8 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "\320\222\320\260\321\210\320\260 \320\267\320\260\320\264\320\260\321\207\320\260 \321\200\320\265\321\210\320\270\321\202\321\214 \321\203\321\200\320\260\320\262\320\275\320\265\320\275\320\270\321\217 \320\275\320\260 \321\201\320\272\320\276\321\200\320\276\321\201\321\202\321\214", nullptr));
-        pushButtonNext->setText(QCoreApplication::translate("MainWindow", "\320\224\320\260\320\273\320\265\320\265", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "\320\275\320\260\321\207\320\260\321\202\321\214", nullptr));
+        label_2->setText(QString());
     } // retranslateUi
 
 };
