@@ -89,6 +89,24 @@ public:
     // Получение текста последней ошибки
     QString lastError() const;
 
+    // Добавить очки игроку по ID
+    bool addPoints(int userId, int pointsToAdd);
+
+    // Добавить алмазы игроку по ID
+    bool addDiamonds(int userId, int diamondsToAdd);
+
+    // Установить точное количество очков
+    bool setPoints(int userId, int newPoints);
+
+    // Установить точное количество алмазов
+    bool setDiamonds(int userId, int newDiamonds);
+
+    // Получить текущие очки игрока
+    int getPlayerPoints(int userId);
+
+    // Получить текущие алмазы игрока
+    int getPlayerDiamonds(int userId);
+
 signals:
     // Сигналы для уведомления GUI (вместо cout/cerr)
     void connected();
