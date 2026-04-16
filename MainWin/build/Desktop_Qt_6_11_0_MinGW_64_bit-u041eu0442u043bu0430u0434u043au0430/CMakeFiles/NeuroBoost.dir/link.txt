@@ -1,3 +1,0 @@
-D:\qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\NeuroBoost.dir/objects.a
-D:\qt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\NeuroBoost.dir/objects.a @CMakeFiles\NeuroBoost.dir\objects1.rsp
-D:\qt\Tools\mingw1310_64\bin\g++.exe -g -mwindows -Wl,--whole-archive CMakeFiles\NeuroBoost.dir/objects.a -Wl,--no-whole-archive -o NeuroBoost.exe -Wl,--out-implib,libNeuroBoost.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\NeuroBoost.dir\linkLibs.rsp

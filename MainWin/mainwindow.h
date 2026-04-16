@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "form.h"
+
+#include "shoppage.h"
+#include "homepage.h"
+#include "gamespage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +26,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Form *form;
+
+    shopPage *shopPage;
+    homePage *homePage;
+    gamesPage *gamesPage;
+
+    void animateButton(QPushButton* button);
 };
 #endif // MAINWINDOW_H

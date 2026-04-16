@@ -23,11 +23,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(NeuroBoost
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-
-        images/kid.jpg
-        form.h form.cpp form.ui
-
-
+        homepage.cpp
+        gamespage.cpp
+        shoppage.cpp
+        resource.qrc
+        gamespage.ui
+        gamespage.h
+        homepage.ui
+        homepage.h
+        shoppage.ui
+        shoppage.ui
+        shoppage.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET NeuroBoost APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -73,3 +79,16 @@ install(TARGETS NeuroBoost
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(NeuroBoost)
 endif()
+
+target_sources(NeuroBoost PRIVATE
+    "../Module_2/game_memory/gamewidget.cpp"
+    "../Module_2/game_memory/gamewidget.h"
+    "../Module_2/game_memory/gamewidget.ui"
+
+    "../Module_2/game_memory/colormemory.cpp"
+    "../Module_2/game_memory/colormemory.h"
+)
+
+target_include_directories(NeuroBoost PRIVATE
+    "../Module_2/game_memory"
+)
