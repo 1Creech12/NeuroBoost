@@ -1,11 +1,15 @@
 #include "gamewidget.h"
 #include "./ui_gamewidget.h"
 
-GameWidget::GameWidget(QWidget *parent)
+GameWidget::GameWidget(QWidget *parent, PlayerDatabase* db, PlayerData* player)
     : QWidget(parent)
     , ui(new Ui::GameWidget)
+    , m_db(db)
+    , m_currentPlayer(player)
 {
     ui->setupUi(this);
+
+    this->setFixedSize(700, 600);
 
     game = new ColorMemory(this);
 
@@ -21,6 +25,7 @@ GameWidget::GameWidget(QWidget *parent)
     connect(game, &ColorMemory::incorrectGuess, this, &GameWidget::onIncorrectGuess);
     connect(game, &ColorMemory::roundComplete, this, &GameWidget::onRoundComplete);
     connect(game, &ColorMemory::gameOver, this, &GameWidget::onGameOver);
+    connect(game, &ColorMemory::levelUp, this, &GameWidget::onLevelUp);
 
     connect(ui->redButton, &QPushButton::clicked, this, &GameWidget::onRedClick);
     connect(ui->blueButton, &QPushButton::clicked, this, &GameWidget::onBlueClick);
@@ -32,12 +37,25 @@ GameWidget::GameWidget(QWidget *parent)
     disableColorButtons(true);
     ui->statusLabel->setText("Нажми START для начала");
     ui->scoreLabel->setText("Счёт: 0");
-    ui->sequenceLabel->setText("");
+    ui->levelLabel->setText("Уровень: 1");
 }
 
 GameWidget::~GameWidget()
 {
     delete ui;
+}
+
+int GameWidget::getShowInterval() const {
+    int level = game->getLevel();
+
+    if (level >= 6) return 350;
+    return 800 - (level - 1) * 100;
+}
+
+int GameWidget::getHideInterval() const {
+    int level = game->getLevel();
+    if (level >= 6) return 150;
+    return 400 - (level - 1) * 60;
 }
 
 void GameWidget::setDisplayColor(const QString& color)
@@ -61,17 +79,22 @@ void GameWidget::startShowingSequence()
     currentShowIndex = 0;
     currentSequence = game->getSequence();
     disableColorButtons(true);
+
     ui->startButton->setEnabled(false);
     ui->statusLabel->setText("СМОТРИ И ЗАПОМИНАЙ!");
+
     showSequenceTimer->stop();
     hideDelayTimer->stop();
     hideDisplay();
-    showSequenceTimer->setInterval(800);
+
+    showSequenceTimer->setInterval(getShowInterval());
+
     if (!currentSequence.isEmpty()) {
         setDisplayColor(currentSequence[0]);
         currentShowIndex++;
-        hideDelayTimer->start(100);
+        hideDelayTimer->start(getHideInterval());
     }
+
     showSequenceTimer->start();
 }
 
@@ -80,7 +103,7 @@ void GameWidget::showNextColor()
     if (currentShowIndex < currentSequence.size()) {
         setDisplayColor(currentSequence[currentShowIndex]);
         currentShowIndex++;
-        hideDelayTimer->start(500);
+        hideDelayTimer->start(getHideInterval());
     } else {
         showSequenceTimer->stop();
         hideDelayTimer->stop();
@@ -93,6 +116,8 @@ void GameWidget::showNextColor()
 void GameWidget::on_startButton_clicked()
 {
     game->reset();
+    ui->levelLabel->setText("Уровень: 1");
+    ui->scoreLabel->setText("Счёт: 0");
     game->startNewRound();
 }
 
@@ -112,9 +137,8 @@ void GameWidget::disableColorButtons(bool disable)
 void GameWidget::onSequenceUpdated(const QVector<QString>& sequence)
 {
     QString text;
-    for (const QString& c : sequence) text += c + " ";
-    ui->sequenceLabel->setText(text.trimmed());
     ui->scoreLabel->setText(QString("Счёт: %1").arg(game->getScore()));
+    ui->levelLabel->setText(QString("Уровень: %1").arg(game->getLevel()));
     startShowingSequence();
 }
 
@@ -135,12 +159,31 @@ void GameWidget::onIncorrectGuess()
 
 void GameWidget::onRoundComplete()
 {
-    ui->statusLabel->setText("★ РАУНД ПРОЙДЕН! ★");
+    int level = game->getLevel();
+    QString levelText = (level > 5) ? "БЕСКОНЕЧНЫЙ" : QString::number(level);
+    ui->statusLabel->setText(QString("★ РАУНД ПРОЙДЕН! (Уровень %1) ★").arg(levelText));
     disableColorButtons(true);
     showSequenceTimer->stop();
     hideDelayTimer->stop();
     hideDisplay();
-    QTimer::singleShot(2000, this, [this]() { game->startNewRound(); });
+
+    QTimer::singleShot(1500, this, [this]() {
+        game->startNewRound();
+    });
+}
+
+void GameWidget::onLevelUp(int newLevel) {
+    QString levelText = (newLevel > 5) ? "БЕСКОНЕЧНЫЙ" : QString::number(newLevel);
+    ui->levelLabel->setText(QString("Уровень: %1").arg(levelText));
+
+    QString msg;
+    if (newLevel == 6) {
+        msg = "🏆 БЕСКОНЕЧНЫЙ РЕЖИМ! 🏆\nТеперь игра на очки!";
+    } else {
+        msg = QString("🎉 УРОВЕНЬ %1! 🎉\nБольше цветов, выше скорость!").arg(newLevel);
+    }
+
+    QMessageBox::information(this, "Повышение уровня", msg);
 }
 
 void GameWidget::onGameOver()
@@ -150,8 +193,27 @@ void GameWidget::onGameOver()
     hideDisplay();
     disableColorButtons(true);
     ui->startButton->setEnabled(true);
-    ui->statusLabel->setText("GAME OVER");
+
     int finalScore = game->getScore();
+    int finalLevel = game->getLevel();
+    QString levelText = (finalLevel > 5) ? "БЕСКОНЕЧНЫЙ" : QString::number(finalLevel);
+
+    ui->statusLabel->setText("GAME OVER");
+
+    if (m_db && m_currentPlayer) {
+        int currentBest = m_currentPlayer->getPoints();
+        if (finalScore > currentBest) {
+            m_currentPlayer->setPoints(finalScore);
+            if (m_db->savePlayer(*m_currentPlayer)) {
+                QMessageBox::information(this, "Рекорд!",
+                                         QString("🎉 Новый рекорд: %1 очков! 🎉").arg(finalScore));
+            }
+        }
+    }
+
     emit gameFinished(finalScore);
-    QMessageBox::information(this, "Игра окончена", QString("Вы проиграли!\nВаш счёт: %1").arg(finalScore));
+    QMessageBox::information(this, "Игра окончена",
+                             QString("Вы проиграли!\n\n"
+                                     "Уровень: %1\n"
+                                     "Ваш счёт: %2").arg(levelText).arg(finalScore));
 }
