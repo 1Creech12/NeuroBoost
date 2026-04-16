@@ -10,6 +10,7 @@
 #include <QThread>
 #include <QMetaObject>
 #include "Timer.h"
+#include "databaseqt.h"
 
 using namespace std;
 
@@ -83,8 +84,14 @@ private slots:
 
 private:
     Ui::MainGames *ui;
+    PlayerDatabase *m_playerDb;
 
-    int m_score = 0;          // Текущие очки
+    void refreshTable();  // Обновить таблицу
+    void clearInputs();   // Очистить поля ввода
+
+    int m_score = 0;
+    int m_diamonds = 0;
+    int m_playerId = 1;    // Текущие очки
     int m_combo = 0;          // Счетчик комбо
     int m_difficulty = 1;     // Уровень сложности (1-3)
     int bestScore = 0;
@@ -123,5 +130,8 @@ private:
     void startTimerMonitoring();
     void stopAllTimers();
     void startGameTimer(int gameType);
+    void loadPlayerData();
+
+
 };
 #endif // MAINGAMES_H

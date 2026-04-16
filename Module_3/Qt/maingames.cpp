@@ -1,11 +1,47 @@
 #include "maingames.h"
 #include "./ui_maingames.h"
+#include "databaseqt.h"
 
 MainGames::MainGames(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainGames)
+    , m_playerDb(new PlayerDatabase(this))  // ← ДОБАВИТЬ ЭТУ СТРОКУ
 {
     ui->setupUi(this);
+
+
+
+    // Подключаем базу данных
+    if (m_playerDb->connect("player_bd.db")) {
+
+        m_playerDb->createTable();            // ← ДОБАВИТЬ (создаст таблицу если нет)
+        // Проверяем, есть ли игроки
+        if (!m_playerDb->playerExists("player1")) {
+            PlayerData newPlayer("Иван", "Иванов", "player1");
+            newPlayer.points = 0;
+            newPlayer.diamonds = 0;
+            m_playerDb->savePlayer(newPlayer);
+            qDebug() << "Создан тестовый игрок с ID:" << newPlayer.id;
+        }
+
+        loadPlayerData();
+
+        qDebug() << "[MainGames] База данных готова";
+    } else {
+        qDebug() << "[MainGames] Ошибка БД:" << m_playerDb->lastError();
+    }
+
+
+
+
+
+
+    // Подключаем сигналы для отладки
+    connect(m_playerDb, &PlayerDatabase::errorOccurred,
+            this, [](const QString &err) { qDebug() << "DB Error:" << err; });
+    connect(m_playerDb, &PlayerDatabase::infoMessage,
+            this, [](const QString &msg) { qDebug() << "DB Info:" << msg; });
+
 
     m_seqTimer = new Timer;
     m_excessTimer = new Timer;
@@ -16,6 +52,7 @@ MainGames::MainGames(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);
 
     updateAllStatsLabels();
+
 }
 
 MainGames::~MainGames()
@@ -36,6 +73,30 @@ void shuffleVector(std::vector<T>& vec) {
         int j = QRandomGenerator::global()->bounded(i + 1);
         std::swap(vec[i], vec[j]);
     }
+}
+
+void MainGames::loadPlayerData()
+{
+    if (!m_playerDb || !m_playerDb->isConnected()) {
+        qDebug() << "[MainGames] БД не готова для загрузки данных";
+        return;
+    }
+
+    // Загружаем игрока по логину "player1"
+    PlayerData player = m_playerDb->getPlayerByLogin("player1");
+
+    if (player.id > 0) {
+        m_playerId = player.id;
+        m_score = player.points;
+        m_diamonds = player.diamonds;
+        qDebug() << "[MainGames] Загружены данные игрока - Очки:" << m_score << "Алмазы:" << m_diamonds;
+    } else {
+        qDebug() << "[MainGames] Игрок не найден, очки = 0";
+        m_score = 0;
+        m_diamonds = 0;
+    }
+
+    updateAllStatsLabels();
 }
 
 void MainGames::on_sequenceBtn_clicked()
@@ -245,11 +306,12 @@ void MainGames::on_btnSeqSubmit_clicked()
 
         ui->labelSeqFeedback->setText("Верно +" + QString::number(totalPoint));
         addScore(totalPoint);
+        //m_playerDb->addPoints(1,400);
         updateCombo(true);
         m_gameActive = false;
 
         // Следующее задание через 1.5 секунды
-        QTimer::singleShot(1500, this, [this]() {
+        QTimer::singleShot(500, this, [this]() {
             if (ui->stackedWidget->currentIndex() == 1){
                 m_gameActive = true;
                 generateSequence();
@@ -422,7 +484,8 @@ void MainGames::on_btnOpt1_clicked()
     if (correct) {
         QString category = m_currentObjects[0].category;
         ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
-        addScore(add_point_Excess + m_combo * 5);
+        int totalPoint = add_point_Excess + m_combo * 5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(2000, this, [this]() {
@@ -445,6 +508,9 @@ void MainGames::on_btnOpt2_clicked()
         QString category = m_currentObjects[0].category;
         ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
         addScore(add_point_Excess + m_combo * 5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(2000, this, [this]() {
@@ -467,6 +533,9 @@ void MainGames::on_btnOpt3_clicked()
         QString category = m_currentObjects[0].category;
         ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
         addScore(add_point_Excess + m_combo * 5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(2000, this, [this]() {
@@ -489,6 +558,9 @@ void MainGames::on_btnOpt4_clicked()
         QString category = m_currentObjects[0].category;
         ui->labelExcessFeedback->setText("Верно! Это " + category + " среди " + m_currentObjects[m_correctOption == 0 ? 1 : 0].category);
         addScore(add_point_Excess + m_combo * 5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(2000, this, [this]() {
@@ -602,6 +674,10 @@ void MainGames::on_btnGreater_clicked()
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
         addScore(add_point_Compare + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
+
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -637,6 +713,9 @@ void MainGames::on_btnLess_clicked()
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
         addScore(add_point_Compare + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -672,6 +751,9 @@ void MainGames::on_btnEqual_clicked()
     if (correct) {
         ui->labelCompareFeedback->setText("Верно! +" + QString::number(10 + m_combo*5));
         addScore(add_point_Compare + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -732,6 +814,9 @@ void MainGames::on_btnTrue_clicked() {
     if (correct) {
         ui->labelStatementFeedback->setText("Верно! +" + QString::number(add_point_Statement + m_combo*5));
         addScore(add_point_Statement + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -758,6 +843,9 @@ void MainGames::on_btnFalse_clicked() {
     if (correct) {
         ui->labelStatementFeedback->setText("Верно! +" + QString::number(add_point_Statement + m_combo*5));
         addScore(add_point_Statement + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -809,6 +897,9 @@ void MainGames::on_btnMemorySubmit_clicked()
     if (correct) {
         ui->labelMemoryFeedback->setText("Верно! +" + QString::number(15 + m_combo*5));
         addScore(add_point_Memory + m_combo*5);
+
+        int totalPoint = add_point_Compare + m_combo*5;
+        addScore(totalPoint);
         updateCombo(true);
         m_gameActive = false;
         QTimer::singleShot(1500, this, [this]() {
@@ -897,6 +988,13 @@ void MainGames::stopAllTimers()
 void MainGames::addScore(int points)
 {
     m_score += points;
+
+    // ✅ СОХРАНЯЕМ В БД
+    if (m_playerDb && m_playerDb->isConnected()) {
+        m_playerDb->setPoints(m_playerId, m_score);
+        qDebug() << "[MainGames] Очки сохранены в БД:" << m_score;
+    }
+
     updateAllStatsLabels();
     adjustDifficulty();
 }
@@ -905,6 +1003,10 @@ void MainGames::deductScore(int points)
 {
     m_score -= points;
     if (m_score < 0) m_score = 0;
+    if (m_playerDb && m_playerDb->isConnected()) {
+        m_playerDb->setPoints(m_playerId, m_score);
+        qDebug() << "[MainGames] Очки сохранены в БД:" << m_score;
+    }
     updateAllStatsLabels();
     adjustDifficulty();
 }

@@ -45,7 +45,7 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 25,
+				"line" : 26,
 				"parent" : 0
 			},
 			{
@@ -69,13 +69,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 64,
+				"line" : 65,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 47,
+				"line" : 48,
 				"parent" : 0
 			},
 			{
@@ -298,11 +298,11 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "Qt_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 0,
 			"id" : "Qt_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "Qt_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "Qt::@6890427a1f51a3e7e1df",
@@ -455,12 +455,12 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
-			"path" : "mainwindow.cpp",
+			"path" : "maingames.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 4,
-			"path" : "mainwindow.h",
+			"path" : "maingames.h",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -476,13 +476,13 @@
 		},
 		{
 			"backtrace" : 4,
-			"path" : "mainwindow.ui",
+			"path" : "maingames.ui",
 			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include/ui_mainwindow.h",
+			"path" : "/Users/creech12/projects/NeuroBoost/build/Qt_autogen/include/ui_maingames.h",
 			"sourceGroupIndex" : 1
 		},
 		{
