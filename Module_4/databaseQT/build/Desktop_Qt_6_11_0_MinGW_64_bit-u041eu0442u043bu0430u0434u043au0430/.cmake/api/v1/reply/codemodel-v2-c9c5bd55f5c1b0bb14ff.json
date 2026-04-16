@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-1e68bfd95d116bf44b16.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "databaseQT",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "databaseQT::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-databaseQT-Debug-e46e0223bbd57d95bd39.json",
+					"name" : "databaseQT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "databaseQT_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-databaseQT_autogen-Debug-77a8d07b60a9450b458b.json",
+					"name" : "databaseQT_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "databaseQT_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-databaseQT_autogen_timestamp_deps-Debug-5b6acdaccc0cd89e9634.json",
+					"name" : "databaseQT_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT/build/Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430",
+		"source" : "C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

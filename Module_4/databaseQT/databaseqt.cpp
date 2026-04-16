@@ -371,3 +371,196 @@ QString PlayerDatabase::lastError() const
 {
     return m_db.lastError().text();
 }
+// ============================================
+// ДОБАВИТЬ ОЧКИ ИГРОКУ ПО ID
+// ============================================
+bool PlayerDatabase::addPoints(int userId, int pointsToAdd)
+{
+    if (!isConnected()) {
+        emit errorOccurred("Нет подключения к БД");
+        return false;
+    }
+
+    if (userId <= 0) {
+        emit errorOccurred("Неверный ID игрока");
+        return false;
+    }
+
+    // Получаем текущие очки
+    int currentPoints = getPlayerPoints(userId);
+    int newPoints = currentPoints + pointsToAdd;
+
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE users SET point = :points WHERE id = :id");
+    query.bindValue(":points", newPoints);
+    query.bindValue(":id", userId);
+
+    if (!query.exec()) {
+        emit errorOccurred("Ошибка начисления очков: " + query.lastError().text());
+        return false;
+    }
+
+    if (query.numRowsAffected() > 0) {
+        emit infoMessage(QString("✅ Игрок ID %1: +%2 очков (теперь %3)")
+                             .arg(userId).arg(pointsToAdd).arg(newPoints));
+        qDebug() << "[PlayerDatabase] Игрок ID" << userId
+                 << "получил" << pointsToAdd << "очков. Всего:" << newPoints;
+        return true;
+    } else {
+        emit errorOccurred(QString("Игрок с ID %1 не найден").arg(userId));
+        return false;
+    }
+}
+
+// ============================================
+// ДОБАВИТЬ АЛМАЗЫ ИГРОКУ ПО ID
+// ============================================
+bool PlayerDatabase::addDiamonds(int userId, int diamondsToAdd)
+{
+    if (!isConnected()) {
+        emit errorOccurred("Нет подключения к БД");
+        return false;
+    }
+
+    if (userId <= 0) {
+        emit errorOccurred("Неверный ID игрока");
+        return false;
+    }
+
+    // Получаем текущие алмазы
+    int currentDiamonds = getPlayerDiamonds(userId);
+    int newDiamonds = currentDiamonds + diamondsToAdd;
+
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE users SET diamonds = :diamonds WHERE id = :id");
+    query.bindValue(":diamonds", newDiamonds);
+    query.bindValue(":id", userId);
+
+    if (!query.exec()) {
+        emit errorOccurred("Ошибка начисления алмазов: " + query.lastError().text());
+        return false;
+    }
+
+    if (query.numRowsAffected() > 0) {
+        emit infoMessage(QString("💎 Игрок ID %1: +%2 алмазов (теперь %3)")
+                             .arg(userId).arg(diamondsToAdd).arg(newDiamonds));
+        qDebug() << "[PlayerDatabase] Игрок ID" << userId
+                 << "получил" << diamondsToAdd << "алмазов. Всего:" << newDiamonds;
+        return true;
+    } else {
+        emit errorOccurred(QString("Игрок с ID %1 не найден").arg(userId));
+        return false;
+    }
+}
+
+// ============================================
+// УСТАНОВИТЬ ТОЧНОЕ КОЛИЧЕСТВО ОЧКОВ
+// ============================================
+bool PlayerDatabase::setPoints(int userId, int newPoints)
+{
+    if (!isConnected()) {
+        emit errorOccurred("Нет подключения к БД");
+        return false;
+    }
+
+    if (userId <= 0) {
+        emit errorOccurred("Неверный ID игрока");
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE users SET point = :points WHERE id = :id");
+    query.bindValue(":points", newPoints);
+    query.bindValue(":id", userId);
+
+    if (!query.exec()) {
+        emit errorOccurred("Ошибка установки очков: " + query.lastError().text());
+        return false;
+    }
+
+    if (query.numRowsAffected() > 0) {
+        emit infoMessage(QString("🎯 Очки игрока ID %1 установлены: %2")
+                             .arg(userId).arg(newPoints));
+        return true;
+    } else {
+        emit errorOccurred(QString("Игрок с ID %1 не найден").arg(userId));
+        return false;
+    }
+}
+
+// ============================================
+// УСТАНОВИТЬ ТОЧНОЕ КОЛИЧЕСТВО АЛМАЗОВ
+// ============================================
+bool PlayerDatabase::setDiamonds(int userId, int newDiamonds)
+{
+    if (!isConnected()) {
+        emit errorOccurred("Нет подключения к БД");
+        return false;
+    }
+
+    if (userId <= 0) {
+        emit errorOccurred("Неверный ID игрока");
+        return false;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("UPDATE users SET diamonds = :diamonds WHERE id = :id");
+    query.bindValue(":diamonds", newDiamonds);
+    query.bindValue(":id", userId);
+
+    if (!query.exec()) {
+        emit errorOccurred("Ошибка установки алмазов: " + query.lastError().text());
+        return false;
+    }
+
+    if (query.numRowsAffected() > 0) {
+        emit infoMessage(QString("💎 Алмазы игрока ID %1 установлены: %2")
+                             .arg(userId).arg(newDiamonds));
+        return true;
+    } else {
+        emit errorOccurred(QString("Игрок с ID %1 не найден").arg(userId));
+        return false;
+    }
+}
+
+// ============================================
+// ПОЛУЧИТЬ ТЕКУЩИЕ ОЧКИ ИГРОКА
+// ============================================
+
+
+int PlayerDatabase::getPlayerPoints(int userId)
+{
+    if (!isConnected() || userId <= 0) {
+        return 0;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT point FROM users WHERE id = :id");
+    query.bindValue(":id", userId);
+    query.exec();
+
+    if (query.next()) {
+        return query.value(0).toInt();
+    }
+    return 0;
+}
+
+// ============================================
+// ПОЛУЧИТЬ ТЕКУЩИЕ АЛМАЗЫ ИГРОКА
+// ============================================
+int PlayerDatabase::getPlayerDiamonds(int userId)
+{
+    if (!isConnected() || userId <= 0) {
+        return 0;
+    }
+
+    QSqlQuery query(m_db);
+    query.prepare("SELECT diamonds FROM users WHERE id = :id");
+    query.bindValue(":id", userId);
+    query.exec();
+
+    if (query.next()) {
+        return query.value(0).toInt();
+    }
+    return 0;
+}

@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "mainwindow.h"      // ← Подключаем ГЛАВНОЕ ОКНО, а не databaseqt.h!
+#include "mainbd.h"      // ← Подключаем ГЛАВНОЕ ОКНО, а не databaseqt.h!
 
 int main(int argc, char *argv[])
 {
