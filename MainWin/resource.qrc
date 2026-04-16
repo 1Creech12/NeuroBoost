@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/new/icons">
+        <file>icons/Cog--Streamline-Ultimate.png</file>
+        <file>icons/House-1--Streamline-Ultimate.png</file>
+        <file>icons/House-Chimney-1--Streamline-Ultimate.png</file>
+        <file>icons/House-Chimney--Streamline-Ultimate.png</file>
+        <file>icons/House-Entrance--Streamline-Ultimate.png</file>
+        <file>icons/Login-1--Streamline-Ultimate.png</file>
+        <file>icons/Login-3--Streamline-Ultimate.png</file>
+        <file>icons/Login--Streamline-Ultimate.png</file>
+        <file>icons/Navigation-Menu-Horizontal-1--Streamline-Ultimate.png</file>
+        <file>icons/Navigation-Menu-Horizontal--Streamline-Ultimate.png</file>
+        <file>icons/Navigation-Menu--Streamline-Ultimate.png</file>
+        <file>icons/People-Man-1--Streamline-Ultimate.png</file>
+        <file>icons/Shop-1--Streamline-Ultimate.png</file>
+        <file>icons/Shopping-Basket-1--Streamline-Ultimate.png</file>
+        <file>icons/Shopping-Cart--Streamline-Ultimate.png</file>
+        <file>icons/Xbox-Controller--Streamline-Ultimate.png</file>
+        <file>icons/ava.png</file>
+    </qresource>
+    <qresource prefix="/new/logo">
+        <file>logo/logo.png</file>
+    </qresource>
+</RCC>
