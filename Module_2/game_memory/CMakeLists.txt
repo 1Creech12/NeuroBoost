@@ -10,32 +10,29 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)
 
 set(PROJECT_SOURCES
-        main.cpp
-        gamewidget.cpp
-        gamewidget.h
-        gamewidget.ui
+    main.cpp
+    gamewidget.cpp
+    gamewidget.h
+    gamewidget.ui
+    databaseqt.h
+    databaseqt.cpp
+    colormemory.h
+    colormemory.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(game_memory
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        colormemory.h colormemory.cpp
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET game_memory APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(game_memory SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(game_memory
             ${PROJECT_SOURCES}
@@ -43,13 +40,13 @@ else()
     endif()
 endif()
 
-target_link_libraries(game_memory PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(game_memory PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.game_memory)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.game_memory)
 endif()
 set_target_properties(game_memory PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -58,6 +55,23 @@ set_target_properties(game_memory PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+set(DATABASE_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/player_bd.db
+)
+
+
+foreach(DB_FILE ${DATABASE_FILES})
+    if(EXISTS ${DB_FILE})
+        add_custom_command(TARGET game_memory POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${DB_FILE}
+            $<TARGET_FILE_DIR:game_memory>
+            COMMENT "Копирование ${DB_FILE} в папку сборки"
+        )
+    endif()
+endforeach()
+
 
 include(GNUInstallDirs)
 install(TARGETS game_memory

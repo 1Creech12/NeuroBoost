@@ -12,6 +12,7 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include "colormemory.h"
+#include "databaseqt.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,8 +25,8 @@ class GameWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit GameWidget(QWidget *parent = nullptr);
-    ~GameWidget() override;
+    explicit GameWidget(QWidget *parent = nullptr, PlayerDatabase* db = nullptr, PlayerData* player = nullptr);
+    ~GameWidget();
 
 signals:
     void gameFinished(int score);
@@ -41,6 +42,7 @@ private slots:
     void onIncorrectGuess();
     void onRoundComplete();
     void onGameOver();
+    void onLevelUp(int newLevel);
 
 private:
     Ui::GameWidget *ui;
@@ -54,11 +56,17 @@ private:
     int currentShowIndex;
     QVector<QString> currentSequence;
 
+    PlayerDatabase* m_db;
+    PlayerData* m_currentPlayer;
+
     // Методы
     void disableColorButtons(bool disable);
     void startShowingSequence();
     void showNextColor();
     void hideDisplay();
     void setDisplayColor(const QString& color);
+    int getShowInterval() const;
+    int getHideInterval() const;
 };
+
 #endif // GAMEWIDGET_H
