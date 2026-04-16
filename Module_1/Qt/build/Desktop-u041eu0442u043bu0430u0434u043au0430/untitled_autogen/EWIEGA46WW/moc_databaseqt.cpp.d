@@ -1,6 +1,5 @@
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/untitled_autogen/EWIEGA46WW/moc_mainModule_1.cpp: /home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/mainModule_1.h \
+/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/untitled_autogen/EWIEGA46WW/moc_databaseqt.cpp: /home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/databaseqt.h \
   /home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/untitled_autogen/moc_predefs.h \
-  /home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/databaseqt.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -173,7 +172,6 @@
   /usr/include/c++/15.2.1/bits/utility.h \
   /usr/include/c++/15.2.1/bits/vector.tcc \
   /usr/include/c++/15.2.1/bits/version.h \
-  /usr/include/c++/15.2.1/cassert \
   /usr/include/c++/15.2.1/cctype \
   /usr/include/c++/15.2.1/cerrno \
   /usr/include/c++/15.2.1/chrono \
@@ -267,12 +265,10 @@
   /usr/include/locale.h \
   /usr/include/pthread.h \
   /usr/include/qt6/QtCore/QDebug \
-  /usr/include/qt6/QtCore/QElapsedTimer \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/q17memory.h \
   /usr/include/qt6/QtCore/q20bit.h \
   /usr/include/qt6/QtCore/q20functional.h \
-  /usr/include/qt6/QtCore/q20iterator.h \
   /usr/include/qt6/QtCore/q20memory.h \
   /usr/include/qt6/QtCore/q20type_traits.h \
   /usr/include/qt6/QtCore/q20utility.h \
@@ -295,7 +291,6 @@
   /usr/include/qt6/QtCore/qbytearraylist.h \
   /usr/include/qt6/QtCore/qbytearrayview.h \
   /usr/include/qt6/QtCore/qchar.h \
-  /usr/include/qt6/QtCore/qcheckedint_impl.h \
   /usr/include/qt6/QtCore/qcompare.h \
   /usr/include/qt6/QtCore/qcompare_impl.h \
   /usr/include/qt6/QtCore/qcomparehelpers.h \
@@ -309,8 +304,6 @@
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
   /usr/include/qt6/QtCore/qdebug.h \
-  /usr/include/qt6/QtCore/qelapsedtimer.h \
-  /usr/include/qt6/QtCore/qendian.h \
   /usr/include/qt6/QtCore/qexceptionhandling.h \
   /usr/include/qt6/QtCore/qflags.h \
   /usr/include/qt6/QtCore/qfloat16.h \
@@ -326,12 +319,10 @@
   /usr/include/qt6/QtCore/qiterable.h \
   /usr/include/qt6/QtCore/qiterator.h \
   /usr/include/qt6/QtCore/qlatin1stringview.h \
-  /usr/include/qt6/QtCore/qline.h \
   /usr/include/qt6/QtCore/qlist.h \
   /usr/include/qt6/QtCore/qlogging.h \
   /usr/include/qt6/QtCore/qmalloc.h \
   /usr/include/qt6/QtCore/qmap.h \
-  /usr/include/qt6/QtCore/qmargins.h \
   /usr/include/qt6/QtCore/qmath.h \
   /usr/include/qt6/QtCore/qmetacontainer.h \
   /usr/include/qt6/QtCore/qmetaobject.h \
@@ -345,9 +336,7 @@
   /usr/include/qt6/QtCore/qobjectdefs_impl.h \
   /usr/include/qt6/QtCore/qoverload.h \
   /usr/include/qt6/QtCore/qpair.h \
-  /usr/include/qt6/QtCore/qpoint.h \
   /usr/include/qt6/QtCore/qprocessordetection.h \
-  /usr/include/qt6/QtCore/qrect.h \
   /usr/include/qt6/QtCore/qrefcount.h \
   /usr/include/qt6/QtCore/qscopedpointer.h \
   /usr/include/qt6/QtCore/qscopeguard.h \
@@ -356,8 +345,6 @@
   /usr/include/qt6/QtCore/qshareddata_impl.h \
   /usr/include/qt6/QtCore/qsharedpointer.h \
   /usr/include/qt6/QtCore/qsharedpointer_impl.h \
-  /usr/include/qt6/QtCore/qsize.h \
-  /usr/include/qt6/QtCore/qspan.h \
   /usr/include/qt6/QtCore/qstdlibdetection.h \
   /usr/include/qt6/QtCore/qstring.h \
   /usr/include/qt6/QtCore/qstringalgorithms.h \
@@ -400,31 +387,6 @@
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
-  /usr/include/qt6/QtGui/qaction.h \
-  /usr/include/qt6/QtGui/qbitmap.h \
-  /usr/include/qt6/QtGui/qbrush.h \
-  /usr/include/qt6/QtGui/qcolor.h \
-  /usr/include/qt6/QtGui/qcursor.h \
-  /usr/include/qt6/QtGui/qfont.h \
-  /usr/include/qt6/QtGui/qfontinfo.h \
-  /usr/include/qt6/QtGui/qfontmetrics.h \
-  /usr/include/qt6/QtGui/qfontvariableaxis.h \
-  /usr/include/qt6/QtGui/qicon.h \
-  /usr/include/qt6/QtGui/qimage.h \
-  /usr/include/qt6/QtGui/qkeysequence.h \
-  /usr/include/qt6/QtGui/qpaintdevice.h \
-  /usr/include/qt6/QtGui/qpalette.h \
-  /usr/include/qt6/QtGui/qpixelformat.h \
-  /usr/include/qt6/QtGui/qpixmap.h \
-  /usr/include/qt6/QtGui/qpolygon.h \
-  /usr/include/qt6/QtGui/qregion.h \
-  /usr/include/qt6/QtGui/qrgb.h \
-  /usr/include/qt6/QtGui/qrgba64.h \
-  /usr/include/qt6/QtGui/qtgui-config.h \
-  /usr/include/qt6/QtGui/qtguiexports.h \
-  /usr/include/qt6/QtGui/qtguiglobal.h \
-  /usr/include/qt6/QtGui/qtransform.h \
-  /usr/include/qt6/QtGui/qwindowdefs.h \
   /usr/include/qt6/QtSql/QSqlDatabase \
   /usr/include/qt6/QtSql/QSqlError \
   /usr/include/qt6/QtSql/QSqlQuery \
@@ -437,14 +399,6 @@
   /usr/include/qt6/QtSql/qtsql-config.h \
   /usr/include/qt6/QtSql/qtsqlexports.h \
   /usr/include/qt6/QtSql/qtsqlglobal.h \
-  /usr/include/qt6/QtWidgets/QMainWindow \
-  /usr/include/qt6/QtWidgets/qmainwindow.h \
-  /usr/include/qt6/QtWidgets/qsizepolicy.h \
-  /usr/include/qt6/QtWidgets/qtabwidget.h \
-  /usr/include/qt6/QtWidgets/qtwidgets-config.h \
-  /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
-  /usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
-  /usr/include/qt6/QtWidgets/qwidget.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \

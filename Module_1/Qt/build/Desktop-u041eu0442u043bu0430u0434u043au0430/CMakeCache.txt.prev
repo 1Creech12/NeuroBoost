@@ -349,6 +349,9 @@ Qt6Widgets_DIR:PATH=/usr/lib/cmake/Qt6Widgets
 //The directory containing a CMake configuration file for Qt6.
 Qt6_DIR:PATH=/usr/lib/cmake/Qt6
 
+//The directory containing a CMake configuration file for Qt.
+Qt_DIR:PATH=Qt_DIR-NOTFOUND
+
 //Path to a program.
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=/usr/bin/glslangValidator
 
@@ -1421,5 +1424,5 @@ Vulkan_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_LIBRARY
 Vulkan_LIBRARY-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/tmp
 

@@ -6,6 +6,8 @@ qt_standard_project_setup()
 
 # 🔑 ОБЯЗАТЕЛЬНО: для std::thread, std::atomic из твоего Timer.h
 find_package(Threads REQUIRED)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)
 
 qt_add_executable(untitled
     WIN32 MACOSX_BUNDLE
@@ -13,13 +15,16 @@ qt_add_executable(untitled
     mainModule_1.cpp
     mainModule_1.h
     mainModule_1.ui
+    databaseqt.cpp
+    databaseqt.h
     ../../Timer/Timer.cpp  # 🔑 Исходник таймера (путь от CMakeLists.txt)
 )
 
 target_link_libraries(untitled
     PRIVATE
         Qt::Core
-        Qt::Widgets
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Sql
         Threads::Threads   # 🔑 Линковка библиотеки потоков
 )
 
