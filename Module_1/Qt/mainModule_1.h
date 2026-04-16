@@ -20,13 +20,11 @@ private slots:
 
 private:
     Ui::MainModule_1 *ui;
-    bool isProcessing; // Защита от спама Enter
-    QElapsedTimer answerTimer; // ⏱ Точный замер без изменения твоего Timer
+    bool isProcessing;
+    QElapsedTimer answerTimer;
 
-    // Простой режим
     int currentA, currentB;
     char currentOp;
-    // Сложный режим
     int nums[4];
     char ops[3];
 
@@ -35,10 +33,13 @@ private:
     bool isComplexMode;
     bool gameEnded;
 
-    // 📊 Статистика времени (в миллисекундах)
     qint64 totalTimeMs;
     qint64 fastestTimeMs;
     qint64 slowestTimeMs;
+
+    // 🎯 Переменные для статистики
+    int correctAnswers;
+    int currentScore; // Очки
 
     void generateProblem();
     int evaluateComplex();

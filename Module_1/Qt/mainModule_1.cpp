@@ -11,14 +11,13 @@ MainModule_1::MainModule_1(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainModule_1)
     , isProcessing(false), currentA(0), currentB(0), currentOp('+')
-    , difficulty(1), problemsSolved(0)
+    , difficulty(1), problemsSolved(0), correctAnswers(0), currentScore(0)
     , isComplexMode(false), gameEnded(false)
     , totalTimeMs(0), fastestTimeMs(LLONG_MAX), slowestTimeMs(0)
 {
     ui->setupUi(this);
     ui->lineEdit->hide();
     ui->label_2->clear();
-    // Твой Timer.h/cpp остаются нетронутыми. QElapsedTimer встроен в Qt.
 }
 
 MainModule_1::~MainModule_1()
@@ -26,7 +25,6 @@ MainModule_1::~MainModule_1()
     delete ui;
 }
 
-// Вычисление с приоритетом: сначала * и /, потом + и -
 int MainModule_1::evaluateComplex()
 {
     int n[4] = {nums[0], nums[1], nums[2], nums[3]};
@@ -64,7 +62,7 @@ void MainModule_1::generateProblem()
         return;
     }
 
-    answerTimer.restart(); // ⏱ Запуск таймера для нового примера
+    answerTimer.restart();
 
     isComplexMode = (problemsSolved >= 7 && problemsSolved < 10);
     int maxRange = 15 * difficulty;
@@ -97,6 +95,8 @@ void MainModule_1::on_pushButton_clicked()
     ui->lineEdit->setFocus();
 
     problemsSolved = 0;
+    correctAnswers = 0;
+    currentScore = 0;       // 🎯 Сброс очков при новом старте
     difficulty = 1;
     gameEnded = false;
     totalTimeMs = 0;
@@ -129,9 +129,8 @@ void MainModule_1::on_lineEdit_returnPressed()
         return;
     }
 
-    // ⏱️ Забираем точное время
     qint64 timeMs = answerTimer.elapsed();
-    double timeSec = timeMs / 1000.0; // Переводим в секунды с дробью
+    double timeSec = timeMs / 1000.0;
 
     int correctAnswer = isComplexMode ? evaluateComplex() : 0;
     if (!isComplexMode) {
@@ -143,15 +142,17 @@ void MainModule_1::on_lineEdit_returnPressed()
         }
     }
 
-    // 📊 Обновляем статистику
     problemsSolved++;
     totalTimeMs += timeMs;
     if (timeMs < fastestTimeMs) fastestTimeMs = timeMs;
     if (timeMs > slowestTimeMs) slowestTimeMs = timeMs;
 
-    // 🟢 Выводим результат + время в label_2
-    QString timeStr = QString::number(timeSec, 'f', 3); // 3 знака после запятой
+    QString timeStr = QString::number(timeSec, 'f', 3);
+
+    // 🎯 Начисление очков только за правильный ответ
     if (userAnswer == correctAnswer) {
+        currentScore += isComplexMode ? 20 : 10; // 20 за сложные, 10 за обычные
+        correctAnswers++;
         ui->label_2->setText(QString("✅ Правильно! ⏱ %1 с.").arg(timeStr));
     } else {
         ui->label_2->setText(QString("❌ Неправильно! ⏱ %1 с.").arg(timeStr));
@@ -159,7 +160,6 @@ void MainModule_1::on_lineEdit_returnPressed()
 
     if (problemsSolved == 8) qDebug() << "🔥 АКТИВИРОВАН СЛОЖНЫЙ УРОВЕНЬ";
 
-    // 🛑 Конец игры
     if (problemsSolved >= 10) {
         gameEnded = true;
         ui->label->setText("🎮 Конец игры");
@@ -169,7 +169,6 @@ void MainModule_1::on_lineEdit_returnPressed()
         return;
     }
 
-    // ⏳ Автопереход через 100 мс
     ui->lineEdit->setReadOnly(true);
     QTimer::singleShot(100, this, [this]() {
         generateProblem();
@@ -180,17 +179,22 @@ void MainModule_1::on_lineEdit_returnPressed()
     });
 }
 
-// 🏆 Итоговая статистика
 void MainModule_1::showFinalResults()
 {
     QString totalStr = QString::number(totalTimeMs / 1000.0, 'f', 3);
     QString fastStr = QString::number((fastestTimeMs == LLONG_MAX ? 0 : fastestTimeMs) / 1000.0, 'f', 3);
     QString slowStr = QString::number(slowestTimeMs / 1000.0, 'f', 3);
 
+    // 🎯 Вывод очков в итоговой статистике
     QString stats = QString("🏆 Игра окончена!\n"
-                            "⏱ Всего времени: %1 с.\n"
-                            "⚡ Самый быстрый: %2 с.\n"
-                            "🐢 Самый долгий: %3 с.")
+                            "💰 Итого очков: %1\n"
+                            "✅ Правильных ответов: %2 из %3\n"
+                            "⏱ Всего времени: %4 с.\n"
+                            "⚡ Самый быстрый: %5 с.\n"
+                            "🐢 Самый долгий: %6 с.")
+                        .arg(currentScore)
+                        .arg(correctAnswers)
+                        .arg(problemsSolved)
                         .arg(totalStr)
                         .arg(fastStr)
                         .arg(slowStr);
