@@ -132,6 +132,7 @@ C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT/build/Desktop_Qt
   C:/Qt/6.11.0/mingw_64/include/QtCore/qversiontagging.h \
   C:/Qt/6.11.0/mingw_64/include/QtCore/qxptype_traits.h \
   C:/Qt/6.11.0/mingw_64/include/QtCore/qyieldcpu.h \
+  C:/Qt/6.11.0/mingw_64/include/QtGui/QStandardItemModel \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qbitmap.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qbrush.h \
@@ -152,6 +153,7 @@ C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT/build/Desktop_Qt
   C:/Qt/6.11.0/mingw_64/include/QtGui/qregion.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qrgb.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qrgba64.h \
+  C:/Qt/6.11.0/mingw_64/include/QtGui/qstandarditemmodel.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qtgui-config.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiexports.h \
   C:/Qt/6.11.0/mingw_64/include/QtGui/qtguiglobal.h \

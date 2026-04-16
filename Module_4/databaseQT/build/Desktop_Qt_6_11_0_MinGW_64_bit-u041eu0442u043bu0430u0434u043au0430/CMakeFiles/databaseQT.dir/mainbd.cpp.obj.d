@@ -386,6 +386,9 @@ CMakeFiles/databaseQT.dir/mainbd.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtabwidget.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/QStandardItemModel \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qstandarditemmodel.h \
+ C:/Qt/6.11.0/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:\Users\LenskayaNV\source\repos\NeuroBoost\Module_4\databaseQT\databaseqt.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QObject \
  C:/Qt/6.11.0/mingw_64/include/QtSql/QSqlDatabase \
@@ -401,7 +404,6 @@ CMakeFiles/databaseQT.dir/mainbd.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtSql/QSqlTableModel \
  C:/Qt/6.11.0/mingw_64/include/QtSql/qsqltablemodel.h \
  C:/Qt/6.11.0/mingw_64/include/QtSql/qsqlquerymodel.h \
- C:/Qt/6.11.0/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QDebug \
  C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT/build/Desktop_Qt_6_11_0_MinGW_64_bit-u041eu0442u043bu0430u0434u043au0430/databaseQT_autogen/include/ui_mainbd.h \
  C:/Qt/6.11.0/mingw_64/include/QtCore/QVariant \
@@ -447,6 +449,8 @@ CMakeFiles/databaseQT.dir/mainbd.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qtextformat.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qpen.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qtextoption.h \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/QListView \
+ C:/Qt/6.11.0/mingw_64/include/QtWidgets/qlistview.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMainWindow \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/QMenuBar \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qmenubar.h \

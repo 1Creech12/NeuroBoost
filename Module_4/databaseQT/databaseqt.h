@@ -9,7 +9,7 @@
 #include <QDebug>
 
 // ============================================
-// КЛАСС ДАННЫХ ИГРОКА (аналог вашего Data_Player)
+// КЛАСС ДАННЫХ ИГРОКА
 // ============================================
 class PlayerData
 {
@@ -21,7 +21,6 @@ public:
     int points = 0;
     int diamonds = 0;
 
-    // Конструкторы (как у вас в Data_Player)
     PlayerData() = default;
     PlayerData(const QString &name, const QString &lastName, const QString &login)
         : name(name), lastName(lastName), login(login) {}
@@ -29,14 +28,12 @@ public:
     PlayerData(const QString &name, const QString &lastName, const QString &login, int points, int diamonds)
         : name(name), lastName(lastName), login(login), points(points), diamonds(diamonds) {}
 
-    // Методы для установки полей (как у вас setXXX)
     void setName(const QString &newName) { name = newName; }
     void setLastName(const QString &newLastName) { lastName = newLastName; }
     void setLogin(const QString &newLogin) { login = newLogin; }
     void setPoints(int newPoints) { points = newPoints; }
     void setDiamonds(int newDiamonds) { diamonds = newDiamonds; }
 
-    // Методы получения полей
     QString getName() const { return name; }
     QString getLastName() const { return lastName; }
     QString getLogin() const { return login; }
@@ -60,18 +57,16 @@ public:
     void disconnect();
     bool isConnected() const;
 
-    // Создание таблицы (аналог CREATE TABLE в вашем коде)
+    // Создание таблицы
     bool createTable();
 
-    // ===== ОСНОВНЫЕ МЕТОДЫ (аналоги ваших) =====
-
-    // Сохранение игрока (объединяет INSERT и UPDATE как у вас в saveToBD)
+    // Сохранение игрока
     bool savePlayer(PlayerData &player);
 
-    // Удаление игрока по ID (аналог deleteById)
+    // Удаление игрока по ID
     bool deletePlayer(int userId);
 
-    // Поиск игрока по логину (для проверки существования)
+    // Поиск игрока по логину
     bool playerExists(const QString &login);
 
     // Получение игрока по ID
@@ -80,10 +75,10 @@ public:
     // Получение игрока по логину
     PlayerData getPlayerByLogin(const QString &login);
 
-    // Получение всех игроков (сортировка по очкам — аналог sortByPointsDesc)
+    // Получение всех игроков
     QList<PlayerData> getAllPlayers(bool sortByPointsDesc = false);
 
-    // Получение модели для отображения в QTableView
+    // Получение модели для QTableView
     QSqlTableModel* getTableModel();
 
     // Получение текста последней ошибки
@@ -107,8 +102,31 @@ public:
     // Получить текущие алмазы игрока
     int getPlayerDiamonds(int userId);
 
+    // ===== ТОПЫ И РЕЙТИНГИ =====
+
+    // Топ-20 по очкам
+    QList<PlayerData> getTop20ByPoints();
+    QList<PlayerData> getTopPlayersByPoints(int limit = 20);
+
+    // Топ-20 по алмазам
+    QList<PlayerData> getTop20ByDiamonds();
+    QList<PlayerData> getTopPlayersByDiamonds(int limit = 20);
+
+    // ===== ТОП-100 ТАБЛИЦА (СОХРАНЯЕМАЯ) =====
+
+    // Создать таблицу для хранения топ-100
+    bool createTop100Table();
+
+    // Обновить топ-100 (очистить старый и записать новый)
+    bool updateTop100();
+
+    // Получить топ-100 из сохранённой таблицы
+    QList<PlayerData> getSavedTop100();
+
+    // Очистить таблицу топ-100
+    bool clearTop100();
+
 signals:
-    // Сигналы для уведомления GUI (вместо cout/cerr)
     void connected();
     void disconnected();
     void playerSaved(int playerId);
@@ -120,7 +138,6 @@ private:
     QSqlDatabase m_db;
     QString m_connectionName;
 
-    // Вспомогательный метод: выполнить запрос и проверить ошибку
     bool execQuery(QSqlQuery &query, const QString &errorPrefix = "");
 };
 

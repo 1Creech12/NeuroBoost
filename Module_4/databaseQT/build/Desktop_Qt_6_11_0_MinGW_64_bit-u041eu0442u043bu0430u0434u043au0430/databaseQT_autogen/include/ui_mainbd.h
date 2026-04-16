@@ -14,6 +14,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -36,6 +37,8 @@ public:
     QLabel *label_2;
     QLabel *label_3;
     QPushButton *pushButton_2;
+    QListView *listView;
+    QPushButton *showLeaderboardButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -79,6 +82,12 @@ public:
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName("pushButton_2");
         pushButton_2->setGeometry(QRect(20, 80, 161, 51));
+        listView = new QListView(centralwidget);
+        listView->setObjectName("listView");
+        listView->setGeometry(QRect(450, 50, 291, 241));
+        showLeaderboardButton = new QPushButton(centralwidget);
+        showLeaderboardButton->setObjectName("showLeaderboardButton");
+        showLeaderboardButton->setGeometry(QRect(150, 510, 181, 24));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -101,6 +110,7 @@ public:
         label_2->setText(QCoreApplication::translate("MainWindow", "lastname->", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "login ->", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 500 \320\276\321\207\320\272\320\276\320\262", nullptr));
+        showLeaderboardButton->setText(QCoreApplication::translate("MainWindow", "\320\236\320\275\320\276\320\262\320\270\321\202\321\214 \321\202\320\260\320\261\320\273\320\270\321\206\321\203 \320\273\320\270\320\264\320\265\321\200\320\276\320\262", nullptr));
     } // retranslateUi
 
 };

@@ -408,4 +408,6 @@ CMakeFiles/databaseQT.dir/databaseQT_autogen/mocs_compilation.cpp.obj: \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.11.0/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.11.0/mingw_64/include/QtWidgets/qtabwidget.h \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/QStandardItemModel \
+ C:/Qt/6.11.0/mingw_64/include/QtGui/qstandarditemmodel.h \
  C:/Users/LenskayaNV/source/repos/NeuroBoost/Module_4/databaseQT/databaseqt.h
