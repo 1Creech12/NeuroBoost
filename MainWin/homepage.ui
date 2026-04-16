@@ -99,16 +99,6 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QTableView" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>390</y>
-     <width>131</width>
-     <height>151</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
@@ -136,6 +126,16 @@
    </property>
    <property name="text">
     <string>Последние новости</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>390</y>
+     <width>151</width>
+     <height>151</height>
+    </rect>
    </property>
   </widget>
  </widget>
