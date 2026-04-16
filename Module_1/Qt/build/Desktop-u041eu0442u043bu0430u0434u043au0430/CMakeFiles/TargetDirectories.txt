@@ -1,9 +1,0 @@
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/untitled.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/edit_cache.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/rebuild_cache.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/list_install_components.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/install.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/install/local.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/install/strip.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/untitled_autogen_timestamp_deps.dir
-/home/Kirill/Documents/VScode/NeuroBoost/NeuroBoost/Module_1/Qt/build/Desktop-u041eu0442u043bu0430u0434u043au0430/CMakeFiles/untitled_autogen.dir

@@ -5,6 +5,7 @@
 #include <QRandomGenerator>
 #include <QDebug>
 #include <QTimer>
+#include <climits>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,10 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     , isProcessing(false), currentA(0), currentB(0), currentOp('+')
     , difficulty(1), problemsSolved(0)
     , isComplexMode(false), gameEnded(false)
+    , totalTimeMs(0), fastestTimeMs(LLONG_MAX), slowestTimeMs(0)
 {
     ui->setupUi(this);
     ui->lineEdit->hide();
     ui->label_2->clear();
+    // Твой Timer.h/cpp остаются нетронутыми. QElapsedTimer встроен в Qt.
 }
 
 MainWindow::~MainWindow()
@@ -61,6 +64,8 @@ void MainWindow::generateProblem()
         return;
     }
 
+    answerTimer.restart(); // ⏱ Запуск таймера для нового примера
+
     isComplexMode = (problemsSolved >= 7 && problemsSolved < 10);
     int maxRange = 15 * difficulty;
 
@@ -94,13 +99,16 @@ void MainWindow::on_pushButton_clicked()
     problemsSolved = 0;
     difficulty = 1;
     gameEnded = false;
+    totalTimeMs = 0;
+    fastestTimeMs = LLONG_MAX;
+    slowestTimeMs = 0;
     ui->label_2->clear();
+
     generateProblem();
 }
 
 void MainWindow::on_lineEdit_returnPressed()
 {
-    // 🔒 Блокируем повторные нажатия
     if (isProcessing || gameEnded) return;
     isProcessing = true;
 
@@ -121,7 +129,10 @@ void MainWindow::on_lineEdit_returnPressed()
         return;
     }
 
-    // Вычисляем правильный ответ
+    // ⏱️ Забираем точное время
+    qint64 timeMs = answerTimer.elapsed();
+    double timeSec = timeMs / 1000.0; // Переводим в секунды с дробью
+
     int correctAnswer = isComplexMode ? evaluateComplex() : 0;
     if (!isComplexMode) {
         switch (currentOp) {
@@ -132,35 +143,58 @@ void MainWindow::on_lineEdit_returnPressed()
         }
     }
 
-    // 🟢 Выводим результат в label_2 (он НЕ очищается автоматически!)
+    // 📊 Обновляем статистику
+    problemsSolved++;
+    totalTimeMs += timeMs;
+    if (timeMs < fastestTimeMs) fastestTimeMs = timeMs;
+    if (timeMs > slowestTimeMs) slowestTimeMs = timeMs;
+
+    // 🟢 Выводим результат + время в label_2
+    QString timeStr = QString::number(timeSec, 'f', 3); // 3 знака после запятой
     if (userAnswer == correctAnswer) {
-        ui->label_2->setText("✅ Правильно!");
+        ui->label_2->setText(QString("✅ Правильно! ⏱ %1 с.").arg(timeStr));
     } else {
-        ui->label_2->setText(QString("❌ Неправильно! Ответ: %1").arg(correctAnswer));
+        ui->label_2->setText(QString("❌ Неправильно! ⏱ %1 с.").arg(timeStr));
     }
 
-    problemsSolved++;
-    qDebug() << "[DEBUG] Решено задач:" << problemsSolved;
+    if (problemsSolved == 8) qDebug() << "🔥 АКТИВИРОВАН СЛОЖНЫЙ УРОВЕНЬ";
 
-    // 🛑 Конец игры после 10 задач
+    // 🛑 Конец игры
     if (problemsSolved >= 10) {
         gameEnded = true;
         ui->label->setText("🎮 Конец игры");
         ui->lineEdit->hide();
-        ui->label_2->setText("🏆 Поздравляем! Игра пройдена!");
-        QMessageBox::information(this, "Финал", "Все 10 задач решены! 🎉");
+        showFinalResults();
         isProcessing = false;
         return;
     }
 
-    // ⏳ Быстрый переход к следующему примеру (100 мс)
-    // label_2 НЕ очищаем! Надпись останется до следующего ответа.
-    ui->lineEdit->setReadOnly(true); // Кратковременная блокировка ввода
+    // ⏳ Автопереход через 100 мс
+    ui->lineEdit->setReadOnly(true);
     QTimer::singleShot(100, this, [this]() {
         generateProblem();
         ui->lineEdit->clear();
         ui->lineEdit->setReadOnly(false);
         ui->lineEdit->setFocus();
-        isProcessing = false; // Разрешаем новый ввод
+        isProcessing = false;
     });
+}
+
+// 🏆 Итоговая статистика
+void MainWindow::showFinalResults()
+{
+    QString totalStr = QString::number(totalTimeMs / 1000.0, 'f', 3);
+    QString fastStr = QString::number((fastestTimeMs == LLONG_MAX ? 0 : fastestTimeMs) / 1000.0, 'f', 3);
+    QString slowStr = QString::number(slowestTimeMs / 1000.0, 'f', 3);
+
+    QString stats = QString("🏆 Игра окончена!\n"
+                            "⏱ Всего времени: %1 с.\n"
+                            "⚡ Самый быстрый: %2 с.\n"
+                            "🐢 Самый долгий: %3 с.")
+                        .arg(totalStr)
+                        .arg(fastStr)
+                        .arg(slowStr);
+
+    ui->label_2->setText(stats.replace("\n", "<br>"));
+    QMessageBox::information(this, "Результаты", stats);
 }
