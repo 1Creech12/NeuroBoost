@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "gamewidget.h"
+#include "maingames.h"
+
 
 namespace Ui {
 class gamesPage;
@@ -20,6 +22,7 @@ private:
     Ui::gamesPage *ui;
 
     GameWidget *gameWidget;
+    MainGames *mainGames;
 };
 
 #endif // GAMESPAGE_H

@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -53,7 +53,10 @@ else()
     endif()
 endif()
 
-target_link_libraries(NeuroBoost PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(NeuroBoost PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -87,8 +90,21 @@ target_sources(NeuroBoost PRIVATE
 
     "../Module_2/game_memory/colormemory.cpp"
     "../Module_2/game_memory/colormemory.h"
+
+    "../Module_3/Qt/maingames.cpp"
+    "../Module_3/Qt/maingames.h"
+    "../Module_3/Qt/maingames.ui"
+
+    "../Module_3/Qt/Timer.cpp"
+    "../Module_3/Qt/Timer.h"
+
+    "../Module_3/Qt/databaseqt.cpp"
+    "../Module_3/Qt/databaseqt.h"
+
+
 )
 
 target_include_directories(NeuroBoost PRIVATE
     "../Module_2/game_memory"
+    "../Module_3/Qt"
 )
