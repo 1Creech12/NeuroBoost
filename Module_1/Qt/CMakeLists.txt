@@ -10,9 +10,9 @@ find_package(Threads REQUIRED)
 qt_add_executable(untitled
     WIN32 MACOSX_BUNDLE
     main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
+    mainModule_1.cpp
+    mainModule_1.h
+    mainModule_1.ui
     ../../Timer/Timer.cpp  # 🔑 Исходник таймера (путь от CMakeLists.txt)
 )
 
