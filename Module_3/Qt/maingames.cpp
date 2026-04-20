@@ -5,7 +5,7 @@
 MainGames::MainGames(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainGames)
-    , m_playerDb(new PlayerDatabase(this))  // ← ДОБАВИТЬ ЭТУ СТРОКУ
+    , m_playerDb(new PlayerDatabase(this)) 
 {
     ui->setupUi(this);
 
@@ -14,8 +14,7 @@ MainGames::MainGames(QWidget *parent)
     // Подключаем базу данных
     if (m_playerDb->connect("player_bd.db")) {
 
-        m_playerDb->createTable();            // ← ДОБАВИТЬ (создаст таблицу если нет)
-        // Проверяем, есть ли игроки
+        m_playerDb->createTable();
         if (!m_playerDb->playerExists("player1")) {
             PlayerData newPlayer("Иван", "Иванов", "player1");
             newPlayer.points = 0;
@@ -36,7 +35,7 @@ MainGames::MainGames(QWidget *parent)
 
 
 
-    // Подключаем сигналы для отладки
+    // Сигналы для отладки
     connect(m_playerDb, &PlayerDatabase::errorOccurred,
             this, [](const QString &err) { qDebug() << "DB Error:" << err; });
     connect(m_playerDb, &PlayerDatabase::infoMessage,
@@ -107,7 +106,6 @@ void MainGames::on_sequenceBtn_clicked()
 
     m_seqTimer->reset();
 
-    // Запуск таймера (время зависит от сложности)
     m_timeLimit = 30 - (m_difficulty * 3);
     if (m_timeLimit < 10) m_timeLimit = 10;
     ui->labelSeqTimer->setText("Время: " + QString::number(m_timeLimit) + "с");
@@ -169,7 +167,6 @@ void MainGames::startTimerMonitoring()
                         if (m_gameActive) {
                             ui->labelSeqTimer->setText("Время: " + QString::number(timeLeft) + "с");
 
-                            // Проверка на окончание времени
                             if (timeLeft <= 0) {
                                 m_gameActive = false;
                                 ui->labelSeqFeedback->setText("⏰ Время вышло! Ответ: " + QString::number(m_correctAnswer));
@@ -258,7 +255,6 @@ void MainGames::generateSequence()
     // Генерация арифметической прогрессии
     int start = QRandomGenerator::global()->bounded(1, 20);
 
-    // Шаг зависит от сложности
     int stepMin = 1;
     int stepMax = 3 + m_difficulty;
     int step = QRandomGenerator::global()->bounded(stepMin, stepMax);
@@ -278,7 +274,6 @@ void MainGames::generateSequence()
     // Правильный ответ - 5-й элемент
     m_correctAnswer = start + 4 * step;
 
-    // Отображаем
     ui->labelSeqQuestion->setText("Продолжите последовательность:\n" + sequence + ", ?");
     ui->inputSeqAnswer->clear();
     ui->inputSeqAnswer->setFocus();
@@ -393,8 +388,7 @@ void MainGames::generateExcess()
 
     m_currentObjects.clear();
 
-    // Выбираем случайную категорию (для 3 объектов)
-    int categoryCount = 8;  // количество категорий
+    int categoryCount = 8;
     int mainCategory = QRandomGenerator::global()->bounded(categoryCount);
 
     QString targetCategory;
@@ -989,7 +983,7 @@ void MainGames::addScore(int points)
 {
     m_score += points;
 
-    // ✅ СОХРАНЯЕМ В БД
+    // Сохранение в БД
     if (m_playerDb && m_playerDb->isConnected()) {
         m_playerDb->setPoints(m_playerId, m_score);
         qDebug() << "[MainGames] Очки сохранены в БД:" << m_score;
